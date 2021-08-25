@@ -57,10 +57,16 @@ goodbyes = [
 def get_insults(word):
   return random.choice(insults_output) + word
 
-def get_insp_quote():
+def get_insp_quote(person):
   res_data = json.loads(requests.get("https://zenquotes.io/api/random").text)
   quote = "\"{0}\" \n- {1}".format(res_data[0]['q'], res_data[0]['a'])
-  return quote
+  return person + ", " + quote
+
+def get_roasted(person):
+  if person.lower() == "thien" or person.lower() == "aden" or person.lower() == "thein":
+    return "no"
+  else:
+    return requests.get("https://insult.mattbas.org/api/en/insult.txt?who="+person).text
 
 @client.event
 async def on_ready():
@@ -83,28 +89,39 @@ async def on_message(message):
     await message.channel.send(random.choice(goodbyes))
 
   if isActive:
+    # Prevent infinite loop
     if message.author == client.user:
       return
 
-    elif message.content.startswith("yoshii") and "add " in message.content:
+    # Add to insults_keywords
+    elif message.content.startswith("yoshii") and "add: " in message.content:
       await message.channel.send(message.content.split(' ')[-1] + " added to keywords")
       if message.content.split(' ')[-1] not in insults_keywords:
         insults_keywords.append(message.content.split(' ')[-1])
 
-    elif message.content.startswith("yoshii") and "remove " in message.content:
+    # Remove from insults_keywords
+    elif message.content.startswith("yoshii") and "remove: " in message.content:
       await message.channel.send(message.content.split(' ')[-1] + " removed from keywords")
       if message.content.split(' ')[-1] in insults_keywords:
         insults_keywords.remove(message.content.split(' ')[-1])
 
+    # Random inspirational quotes
     elif message.content.startswith("yoshii") and "inspire" in message.content:
-      await message.channel.send(get_insp_quote())
+      await message.channel.send(get_insp_quote(message.content.split(' ')[-1]))
 
+    # Random roasts
+    elif message.content.startswith("yoshii") and "roast" in message.content:
+      await message.channel.send(get_roasted(message.content.split(' ')[-1]))
+
+    # Output the list of insults_keywords
     elif message.content.startswith("yoshii") and "keywords" in message.content:
       await message.channel.send(insults_keywords)
     
+    # Default greetings
     elif message.content.endswith("yoshii"):
       await message.channel.send(random.choice(greetings))
 
+    # Listening for insults_keywords
     else:
       for word in insults_keywords:
         if word in message.content.lower():
@@ -112,5 +129,5 @@ async def on_message(message):
           if ran_num == 1:
             await message.channel.send(get_insults(word))
 
-# keep_alive()
+keep_alive()
 client.run(os.getenv('BOT_TOKEN'))
