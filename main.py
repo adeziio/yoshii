@@ -3,6 +3,7 @@ import os
 import random
 import requests
 import json
+from keep_alive import keep_alive
 
 client = discord.Client()
 
@@ -62,4 +63,5 @@ async def on_message(message):
     if message.content.split(' ')[-1] not in urface_keywords:
       urface_keywords.append(message.content.split(' ')[-1])
 
+keep_alive()
 client.run(os.getenv('BOT_TOKEN'))
