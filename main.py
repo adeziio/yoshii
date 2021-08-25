@@ -121,6 +121,7 @@ async def on_message(message):
     elif message.content.endswith("yoshii"):
       await message.channel.send(random.choice(greetings))
 
+    # Last condition
     # Listening for insults_keywords
     else:
       for word in insults_keywords:
