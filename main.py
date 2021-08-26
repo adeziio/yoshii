@@ -136,5 +136,5 @@ async def on_message(message):
           if ran_num == 1:
             await message.channel.send(get_insults(word))
 
-# keep_alive()
+keep_alive()
 client.run(os.getenv('BOT_TOKEN'))
