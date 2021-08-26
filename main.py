@@ -10,6 +10,7 @@ client = discord.Client()
 isActive = True
 
 insults_keywords = [
+  'crazy',
   'funny',
   'poop',
   'huge',
