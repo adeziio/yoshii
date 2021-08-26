@@ -94,7 +94,7 @@ async def on_message(message):
     await message.channel.send(random.choice(goodbyes))
 
   if isActive:
-    print(message.author.name)
+    # print(message.author.name)
     # Prevent infinite loop
     if message.author == client.user:
       return
