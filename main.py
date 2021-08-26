@@ -54,6 +54,11 @@ goodbyes = [
   "Night, Mama Luigi!"
 ]
 
+roast_blacklist = [
+  "I'm Not Short",
+  "ruen-"
+]
+
 def get_insults(word):
   return random.choice(insults_output) + word
 
@@ -63,7 +68,7 @@ def get_insp_quote(person):
   return person + ", " + quote
 
 def get_roasted(person):
-  if person.lower() == "thien" or person.lower() == "aden" or person.lower() == "thein":
+  if person.lower() == "thien" or person.lower() == "aden" or person.lower() == "thein" or person.lower() == "thienn" or person.lower() == "adenn" or person.lower() == "theinn":
     return "no"
   else:
     return requests.get("https://insult.mattbas.org/api/en/insult.txt?who="+person).text
@@ -89,6 +94,7 @@ async def on_message(message):
     await message.channel.send(random.choice(goodbyes))
 
   if isActive:
+    print(message.author.name)
     # Prevent infinite loop
     if message.author == client.user:
       return
@@ -110,7 +116,7 @@ async def on_message(message):
       await message.channel.send(get_insp_quote(message.content.split(' ')[-1]))
 
     # Random roasts
-    elif message.content.startswith("yoshii") and "roast" in message.content:
+    elif message.content.startswith("yoshii") and "roast" in message.content and message.author.name not in roast_blacklist:
       await message.channel.send(get_roasted(message.content.split(' ')[-1]))
 
     # Output the list of insults_keywords
@@ -126,9 +132,9 @@ async def on_message(message):
     else:
       for word in insults_keywords:
         if word in message.content.lower():
-          ran_num = random.randint(1, 2)
+          ran_num = random.randint(1, 1)
           if ran_num == 1:
             await message.channel.send(get_insults(word))
 
-keep_alive()
+# keep_alive()
 client.run(os.getenv('BOT_TOKEN'))
