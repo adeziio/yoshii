@@ -91,15 +91,15 @@ async def on_message(message):
     await message.channel.send("I'm awake!" if isActive else "I'm asleep...zZzZzZ")
 
   # Set awake or sleep
-  if message.content.startswith("yoshii") and "awake" in message.content:
+  if message.content.startswith("yoshii wake up"):
     isActive = True
     await message.channel.send(random.choice(greetings))
-  elif message.content.startswith("yoshii") and "sleep" in message.content:
+  elif message.content.startswith("yoshii sleep") and message.author.name == "Adezi":
     isActive = False
     await message.channel.send(random.choice(goodbyes))
 
   if isActive:
-    # print(message.author.name)
+    print(message.author.name)
     # Prevent infinite loop
     if message.author == client.user:
       return
