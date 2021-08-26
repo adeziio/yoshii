@@ -1,1 +1,1 @@
-# yoshii is a discord bot that likes to roast you.
+# yoshii is a discord bot that likes to roast you :)
