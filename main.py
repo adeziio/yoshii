@@ -10,7 +10,7 @@ client = discord.Client()
 isActive = True
 
 insults_keywords = [
-  'gay',
+  'funny',
   'poop',
   'huge',
   'dumb',
@@ -63,15 +63,20 @@ def get_insults(word):
   return random.choice(insults_output) + word
 
 def get_insp_quote(person):
+  omit = ["i", "me", "he", "she", "her", "him"]
   res_data = json.loads(requests.get("https://zenquotes.io/api/random").text)
-  quote = "\"{0}\" \n- {1}".format(res_data[0]['q'], res_data[0]['a'])
-  return person + ", " + quote
+  quote = res_data[0]['q']
+  # author = res_data[0]['a']
+  inspire = "{0}".format(quote)
+  return person.capitalize() + ". " + inspire if person.lower() not in omit else "" + inspire
 
 def get_roasted(person):
-  if person.lower() == "thien" or person.lower() == "aden" or person.lower() == "thein" or person.lower() == "thienn" or person.lower() == "adenn" or person.lower() == "theinn":
-    return "no"
+  omit = ["i", "me", "he", "she", "her", "him", "thien", "aden", "thein", "thienn", "adenn", "theinn"]
+  repsonses = ["nah", "no", "try again", "wut"]
+  if person.lower() in omit:
+    return random.choice(repsonses)
   else:
-    return requests.get("https://insult.mattbas.org/api/en/insult.txt?who="+person).text
+    return requests.get("https://insult.mattbas.org/api/en/insult.txt?who="+person.capitalize()).text
 
 @client.event
 async def on_ready():
@@ -100,27 +105,27 @@ async def on_message(message):
       return
 
     # Add to insults_keywords
-    elif message.content.startswith("yoshii") and "add: " in message.content:
+    elif message.content.startswith("yoshii add "):
       await message.channel.send(message.content.split(' ')[-1] + " added to keywords")
       if message.content.split(' ')[-1] not in insults_keywords:
         insults_keywords.append(message.content.split(' ')[-1])
 
     # Remove from insults_keywords
-    elif message.content.startswith("yoshii") and "remove: " in message.content:
+    elif message.content.startswith("yoshii remove "):
       await message.channel.send(message.content.split(' ')[-1] + " removed from keywords")
       if message.content.split(' ')[-1] in insults_keywords:
         insults_keywords.remove(message.content.split(' ')[-1])
 
     # Random inspirational quotes
-    elif message.content.startswith("yoshii") and "inspire" in message.content:
+    elif message.content.startswith("yoshii inspire "):
       await message.channel.send(get_insp_quote(message.content.split(' ')[-1]))
 
     # Random roasts
-    elif message.content.startswith("yoshii") and "roast" in message.content and message.author.name not in roast_blacklist:
+    elif message.content.startswith("yoshii roast ") and message.author.name not in roast_blacklist:
       await message.channel.send(get_roasted(message.content.split(' ')[-1]))
 
     # Output the list of insults_keywords
-    elif message.content.startswith("yoshii") and "keywords" in message.content:
+    elif message.content.startswith("yoshii keywords?"):
       await message.channel.send(insults_keywords)
     
     # Default greetings
