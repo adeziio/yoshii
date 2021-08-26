@@ -40,7 +40,6 @@ greetings = [
   "Ooga! Yoshi boogie!",
   "Yoshi! Yoshi!",
   "YOSHI, FAIRY OF DRAGON FLAME!!!",
-  "Hey! I still hungry!",
   "Oogabooga! I ready, and hungry!",
   "YOSHI TO RESCUE!!!"
 ]
@@ -51,7 +50,8 @@ goodbyes = [
   "Nooooooo",
   "Ohhhh.... Yoshi no feel good!",
   "Aww, do I have to go to bed so soon?",
-  "Night, Mama Luigi!"
+  "Night, Mama Luigi!",
+  "Hey! I still hungry!",
 ]
 
 roast_blacklist = [
