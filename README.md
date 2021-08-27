@@ -11,7 +11,8 @@
 ##### $ yoshii remove {your word here}
 ##### $ yoshii inspire {person}
 ##### $ yoshii roast {person}
-##### $ yoshii keywords?
+##### $ yoshii keywords
+##### $ yoshii cat
 
 ### Additional Notes:
 #### yoshii constantly reads your chat. If you happen to type one of the keywords, he will roast you with that word. Good luck!
