@@ -81,14 +81,19 @@ def get_roasted(person):
     return requests.get("https://insult.mattbas.org/api/en/insult.txt?who="+person.capitalize()).text
 
 def photo_searcher_cat():
-  cat_photo = requests.get("https://thatcopy.pw/catapi/rest/").json()['webpurl']
+  cat_photo_res = requests.get("https://api.thecatapi.com/v1/images/search").json()[0]
+  cat_photo_url = cat_photo_res['url']
+  cat_photo_width = cat_photo_res['width']
+  cat_photo_height = cat_photo_res['height']
   cat_fact =  requests.get("https://catfact.ninja/fact").json()['fact']
   embed = discord.Embed(
           title = 'Fun Fact 🐈',
           description = cat_fact,
-          colour = discord.Colour.purple()
+          colour = discord.Colour.purple(),
+          width = cat_photo_width,
+          height = cat_photo_height
           )
-  embed.set_image(url=cat_photo)
+  embed.set_image(url=cat_photo_url)
   embed.set_footer(text="")
 
   return embed
@@ -162,5 +167,5 @@ async def on_message(message):
           if ran_num == 1:
             await message.channel.send(get_insults(word))
 # ---------------------------------------------------------------------------------------------------------------------------
-keep_alive()
+# keep_alive()
 client.run(os.getenv('BOT_TOKEN'))
