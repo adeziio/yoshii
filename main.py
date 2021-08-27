@@ -95,8 +95,10 @@ def photo_searcher_cat():
           )
   embed.set_image(url=cat_photo_url)
   embed.set_footer(text="")
-
   return embed
+
+def get_joke():
+  return requests.get("https://v2.jokeapi.dev/joke/Any?type=single").json()['joke']
 
 # ---------------------------------------------------------------------------------------------------------------------------
 
@@ -120,6 +122,7 @@ async def on_message(message):
     isActive = False
     await message.channel.send(random.choice(goodbyes))
 
+  # Do these only when active
   if isActive:
     # print(message.author.name)
     # Prevent infinite loop
@@ -149,6 +152,10 @@ async def on_message(message):
     # Random cat photos
     elif message.content.startswith("yoshii cat"):
       await message.channel.send(embed=photo_searcher_cat())
+
+    # Random joke
+    elif message.content.startswith("yoshii tell a joke"):
+      await message.channel.send(get_joke())
 
     # Output the list of insults_keywords
     elif message.content.startswith("yoshii keywords"):
