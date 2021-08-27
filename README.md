@@ -5,27 +5,27 @@
 
 #### List of commands:
 ##### $ yoshii
-###### default greetings
+###### *default greetings*
 ##### $ yoshii status
-###### check active status
+###### *check active status*
 ##### $ yoshii wake up
-###### turn active on
+###### *turn active on*
 ##### $ yoshii sleep
-###### turn active off
+###### *turn active off*
 ##### $ yoshii add {your word here}
-###### add a keyword to the roast list
+###### *add a keyword to the roast list*
 ##### $ yoshii remove {your word here}
-###### remove a keyword from the roast list
+###### *remove a keyword from the roast list*
 ##### $ yoshii inspire {person}
-###### random inspirational quote for the person
+###### *random inspirational quote for the person*
 ##### $ yoshii roast {person}
-###### roast the person
+###### *roast the person*
 ##### $ yoshii keywords
-###### display the list of roast keywords
+###### *display the list of roast keywords*
 ##### $ yoshii cat
-###### display a picture of a cat with a fun fact
+###### *display a picture of a cat with a fun fact*
 ##### $ yoshii tell a joke
-###### tell a random joke
+###### *tell a random joke*
 
 ### Note:
 #### yoshii constantly reads your chat. Be careful when typing because you might get roasted. Good luck!
