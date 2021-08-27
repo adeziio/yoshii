@@ -2,7 +2,6 @@ import discord
 import os
 import random
 import requests
-import json
 from keep_alive import keep_alive
 
 client = discord.Client()
@@ -60,14 +59,16 @@ roast_blacklist = [
   "ruen-"
 ]
 
+# ---------------------------------------------------------------------------------------------------------------------------
+
 def get_insults(word):
   return random.choice(insults_output) + word
 
 def get_insp_quote(person):
   omit = ["i", "me", "he", "she", "her", "him"]
-  res_data = json.loads(requests.get("https://zenquotes.io/api/random").text)
-  quote = res_data[0]['q']
-  # author = res_data[0]['a']
+  json_res = requests.get("https://zenquotes.io/api/random").json()
+  quote = json_res[0]['q']
+  # author = json_res[0]['a']
   inspire = "{0}".format(quote)
   return person.capitalize() + ". " + inspire if person.lower() not in omit else "" + inspire
 
@@ -78,6 +79,21 @@ def get_roasted(person):
     return random.choice(repsonses)
   else:
     return requests.get("https://insult.mattbas.org/api/en/insult.txt?who="+person.capitalize()).text
+
+def photo_searcher_cat():
+  cat_photo = requests.get("https://thatcopy.pw/catapi/rest/").json()['webpurl']
+  cat_fact =  requests.get("https://catfact.ninja/fact").json()['fact']
+  embed = discord.Embed(
+          title = 'Fun Fact 🐈',
+          description = cat_fact,
+          colour = discord.Colour.purple()
+          )
+  embed.set_image(url=cat_photo)
+  embed.set_footer(text="")
+
+  return embed
+
+# ---------------------------------------------------------------------------------------------------------------------------
 
 @client.event
 async def on_ready():
@@ -124,9 +140,13 @@ async def on_message(message):
     # Random roasts
     elif message.content.startswith("yoshii roast ") and message.author.name not in roast_blacklist:
       await message.channel.send(get_roasted(message.content.split(' ')[-1]))
+    
+    # Random cat photos
+    elif message.content.startswith("yoshii cat"):
+      await message.channel.send(embed=photo_searcher_cat())
 
     # Output the list of insults_keywords
-    elif message.content.startswith("yoshii keywords?"):
+    elif message.content.startswith("yoshii keywords"):
       await message.channel.send(insults_keywords)
     
     # Default greetings
@@ -141,6 +161,6 @@ async def on_message(message):
           ran_num = random.randint(1, 1)
           if ran_num == 1:
             await message.channel.send(get_insults(word))
-
+# ---------------------------------------------------------------------------------------------------------------------------
 keep_alive()
 client.run(os.getenv('BOT_TOKEN'))
