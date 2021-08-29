@@ -100,6 +100,31 @@ def photo_searcher_cat():
 def get_joke():
   return requests.get("https://v2.jokeapi.dev/joke/Any?type=single").json()['joke']
 
+def google_searcher(searchList):
+  newSearch = ""
+  for search in searchList:
+    newSearch += search + "+"
+  headers = {
+    'x-rapidapi-host': "google-search3.p.rapidapi.com",
+    'x-rapidapi-key': os.getenv('GOOGLE_SEARCH_TOKEN')
+    }
+  search_image = requests.get("https://google-search3.p.rapidapi.com/api/v1/images/q="+newSearch, headers=headers).json()['image_results'][0]
+  search = requests.get("https://google-search3.p.rapidapi.com/api/v1/search/q="+newSearch, headers=headers).json()['results'][0]
+  image_url = search_image['image']['src']
+  search_title = search['title']
+  search_link = search['link']
+  search_description = search['description']
+
+  embed = discord.Embed(
+          title = search_title,
+          description = search_description,
+          url = search_link,
+          colour = discord.Colour.purple()
+          )
+  embed.set_image(url=image_url)
+  embed.set_footer(text="")
+  return embed
+
 # ---------------------------------------------------------------------------------------------------------------------------
 
 @client.event
@@ -156,6 +181,10 @@ async def on_message(message):
     # Random joke
     elif message.content.startswith("yoshii tell a joke"):
       await message.channel.send(get_joke())
+
+     # Google search
+    elif message.content.startswith("yoshii search "):
+      await message.channel.send(embed=google_searcher(message.content.split(' ')[2:]))
 
     # Output the list of insults_keywords
     elif message.content.startswith("yoshii keywords"):

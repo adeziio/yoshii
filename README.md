@@ -26,6 +26,9 @@
 ###### *display a picture of a cat with a fun fact*
 ##### $ yoshii tell a joke
 ###### *tell a random joke*
+##### $ yoshii search {your search here}
+###### *use the google search API to search the web*
 
 ### Note:
+#### aside from roasting, yoshii can also help you do a quick search on the web.
 #### yoshii constantly reads your chat. Be careful when typing because you might get roasted. Good luck!
