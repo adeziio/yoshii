@@ -119,7 +119,7 @@ def google_searcher(searchList):
           title = search_title,
           description = search_description,
           url = search_link,
-          colour = discord.Colour.purple()
+          colour = discord.Colour.blue()
           )
   embed.set_image(url=image_url)
   embed.set_footer(text="")
