@@ -23,7 +23,7 @@ insults_keywords = [
   'apple',
   'weird',
   'scary',
-  '天'
+  '天',
 ]
 
 insults_output = [
@@ -32,7 +32,7 @@ insults_output = [
   "boi ur forehead is ",
   "ur mum is ",
   "boi ur face is ",
-  "boi ya look like a "
+  "boi ya look like a ",
 ]
 
 greetings = [
@@ -40,7 +40,7 @@ greetings = [
   "Yoshi! Yoshi!",
   "YOSHI, FAIRY OF DRAGON FLAME!!!",
   "Oogabooga! I ready, and hungry!",
-  "YOSHI TO RESCUE!!!"
+  "YOSHI TO RESCUE!!!",
 ]
 
 goodbyes = [
@@ -55,7 +55,9 @@ goodbyes = [
 
 roast_blacklist = [
   "I'm Not Short",
-  "ruen-"
+  "ruen-",
+  "bumblebee",
+  "DooDoo",
 ]
 
 # ---------------------------------------------------------------------------------------------------------------------------
