@@ -23,7 +23,6 @@ insults_keywords = [
   'apple',
   'weird',
   'scary',
-  '天',
 ]
 
 insults_output = [
