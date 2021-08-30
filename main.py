@@ -171,8 +171,11 @@ async def on_message(message):
       await message.channel.send(get_insp_quote(message.content.split(' ')[-1]))
 
     # Random roasts
-    elif message.content.startswith("yoshii roast ") and message.author.name not in roast_blacklist:
-      await message.channel.send(get_roasted(message.content.split(' ')[-1]))
+    elif message.content.startswith("yoshii roast "):
+      if message.author.name not in roast_blacklist:
+        await message.channel.send(get_roasted(message.content.split(' ')[-1]))
+      else:
+        await message.channel.send("nah, ur banned")
     
     # Random cat photos
     elif message.content.startswith("yoshii cat"):
