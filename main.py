@@ -15,16 +15,14 @@ insults_keywords = [
   'huge',
   'dumb',
   'stupid',
+  'stoopid',
   'ugly',
   'big',
   'sad',
   'fat',
   'apple',
   'weird',
-  'scary',
-  ':face_vomiting:',
-  ':skull:',
-  ':moyai:'
+  'scary'
 ]
 
 insults_output = [
@@ -201,7 +199,8 @@ async def on_message(message):
         if word in message.content.lower():
           ran_num = random.randint(1, 1)
           if ran_num == 1:
-            await message.channel.send(get_insults(word))
+            if (message.author.name != "adeziio"):
+              await message.channel.send(get_insults(word))
 # ---------------------------------------------------------------------------------------------------------------------------
 keep_alive()
 client.run(os.getenv('BOT_TOKEN'))
