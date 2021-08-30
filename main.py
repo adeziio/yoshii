@@ -22,7 +22,8 @@ insults_keywords = [
   'fat',
   'apple',
   'weird',
-  'scary'
+  'scary',
+  '天'
 ]
 
 insults_output = [
@@ -71,7 +72,7 @@ def get_insp_quote(person):
   return person.capitalize() + ". " + inspire if person.lower() not in omit else "" + inspire
 
 def get_roasted(person):
-  omit = ["yoshii", "yoshi", "i", "me", "he", "she", "her", "him", "thien", "aden", "thein", "thienn", "adenn", "theinn"]
+  omit = ["天", "yoshii", "yoshi", "i", "me", "he", "she", "her", "him", "thien", "aden", "thein", "thienn", "adenn", "theinn"]
   repsonses = ["nah", "no", "try again", "wut"]
   if person.lower() in omit:
     return random.choice(repsonses)
