@@ -23,6 +23,7 @@ insults_keywords = [
   'apple',
   'weird',
   'scary',
+  'buffalo'
 ]
 
 insults_output = [
@@ -53,10 +54,9 @@ goodbyes = [
 ]
 
 roast_blacklist = [
-  "I'm Not Short",
-  "ruen-",
-  "bumblebee",
-  "DooDoo",
+  "758086695949434911",
+  "316687901884678144",
+  "669660483833561110",
 ]
 
 # ---------------------------------------------------------------------------------------------------------------------------
@@ -149,7 +149,7 @@ async def on_message(message):
 
   # Do these only when active
   if isActive:
-    # print(message.author.name)
+    # print(message.author.name, message.author.id)
     # Prevent infinite loop
     if message.author == client.user:
       return
@@ -172,7 +172,7 @@ async def on_message(message):
 
     # Random roasts
     elif message.content.startswith("yoshii roast "):
-      if message.author.name not in roast_blacklist:
+      if message.author.id not in roast_blacklist:
         await message.channel.send(get_roasted(message.content.split(' ')[-1]))
       else:
         await message.channel.send("nah, ur banned")
