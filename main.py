@@ -59,6 +59,10 @@ roast_blacklist = [
   "669660483833561110",
 ]
 
+whitelist = [
+  "333025781309767684",
+]
+
 # ---------------------------------------------------------------------------------------------------------------------------
 
 def get_insults(word):
@@ -149,7 +153,7 @@ async def on_message(message):
 
   # Do these only when active
   if isActive:
-    # print(message.author.name, message.author.id)
+    # print(message.author.name, message.author.id, type(message.author.id))
     # Prevent infinite loop
     if message.author == client.user:
       return
@@ -172,7 +176,7 @@ async def on_message(message):
 
     # Random roasts
     elif message.content.startswith("yoshii roast "):
-      if message.author.id not in roast_blacklist:
+      if str(message.author.id) not in roast_blacklist:
         await message.channel.send(get_roasted(message.content.split(' ')[-1]))
       else:
         await message.channel.send("nah, ur banned")
@@ -204,7 +208,7 @@ async def on_message(message):
         if word in message.content.lower():
           ran_num = random.randint(1, 1)
           if ran_num == 1:
-            if (message.author.name != "adeziio"):
+            if (str(message.author.id) not in whitelist):
               await message.channel.send(get_insults(word))
 # ---------------------------------------------------------------------------------------------------------------------------
 keep_alive()
