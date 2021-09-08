@@ -8,6 +8,17 @@ client = discord.Client()
 
 isActive = True
 
+game_list = [
+  "Super Mario World 2: Yoshi's Island",
+  "Yoshi's Story",
+  "Yoshi's Universal Gravitation",
+  "Yoshi Touch & Go",
+  "Yoshi's Island DS",
+  "Yoshi's New Island",
+  "Yoshi's Woolly World",
+  "Yoshi's Crafted World",
+]
+
 insults_keywords = [
   'crazy',
   'funny',
@@ -23,7 +34,7 @@ insults_keywords = [
   'apple',
   'weird',
   'scary',
-  'buffalo'
+  'buffalo',
 ]
 
 insults_output = [
@@ -64,6 +75,8 @@ whitelist = [
 ]
 
 # ---------------------------------------------------------------------------------------------------------------------------
+def random_game_status():
+  return discord.Game(name=random.choice(game_list))
 
 def get_insults(word):
   return random.choice(insults_output) + word
@@ -130,7 +143,6 @@ def google_searcher(searchList):
   return embed
 
 # ---------------------------------------------------------------------------------------------------------------------------
-
 @client.event
 async def on_ready():
   print("Logged in as {0.user}".format(client))
@@ -146,9 +158,11 @@ async def on_message(message):
   # Set awake or sleep
   if message.content.startswith("yoshii wake up"):
     isActive = True
+    await client.change_presence(status=discord.Status.online, activity=random_game_status())
     await message.channel.send(random.choice(greetings))
   elif message.content.startswith("yoshii sleep"):
     isActive = False
+    await client.change_presence(status=discord.Status.idle, activity=None)
     await message.channel.send(random.choice(goodbyes))
 
   # Do these only when active
@@ -198,7 +212,7 @@ async def on_message(message):
       await message.channel.send(random.choice(greetings))
 
     # Google search
-    elif message.content.startswith("yoshii "):
+    elif message.content.startswith("yoshii search "):
       await message.channel.send(embed=google_searcher(message.content.split(' ')[1:]))
 
     # Last condition
@@ -210,6 +224,7 @@ async def on_message(message):
           if ran_num == 1:
             if (str(message.author.id) not in whitelist):
               await message.channel.send(get_insults(word))
+
 # ---------------------------------------------------------------------------------------------------------------------------
 keep_alive()
 client.run(os.getenv('BOT_TOKEN'))
