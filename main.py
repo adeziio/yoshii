@@ -189,10 +189,6 @@ async def on_message(message):
     elif message.content.startswith("yoshii tell a joke"):
       await message.channel.send(get_joke())
 
-     # Google search
-    elif message.content.startswith("yoshii search "):
-      await message.channel.send(embed=google_searcher(message.content.split(' ')[2:]))
-
     # Output the list of insults_keywords
     elif message.content.startswith("yoshii keywords"):
       await message.channel.send(insults_keywords)
@@ -200,6 +196,10 @@ async def on_message(message):
     # Default greetings
     elif message.content.endswith("yoshii"):
       await message.channel.send(random.choice(greetings))
+
+    # Google search
+    elif message.content.startswith("yoshii "):
+      await message.channel.send(embed=google_searcher(message.content.split(' ')[1:]))
 
     # Last condition
     # Listening for insults_keywords

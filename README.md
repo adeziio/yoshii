@@ -26,7 +26,7 @@
 ###### *display a picture of a cat with a fun fact*
 ##### $ yoshii tell a joke
 ###### *tell a random joke*
-##### $ yoshii search {your search here}
+##### $ yoshii {your search here}
 ###### *use the google search API to search the web*
 
 ### Note:
