@@ -18,6 +18,8 @@ game_list = [
   "Yoshi's New Island",
   "Yoshi's Woolly World",
   "Yoshi's Crafted World",
+  "VALORANT",
+  "League of Legends",
 ]
 
 insults_keywords = [
