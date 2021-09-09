@@ -2,6 +2,7 @@ import discord
 import os
 import random
 import requests
+from discord.ext import tasks
 from keep_alive import keep_alive
 
 client = discord.Client()
@@ -145,6 +146,7 @@ def google_searcher(searchList):
 # ---------------------------------------------------------------------------------------------------------------------------
 @client.event
 async def on_ready():
+  change_status.start()
   print("Logged in as {0.user}".format(client))
 
 @client.event
@@ -158,7 +160,6 @@ async def on_message(message):
   # Set awake or sleep
   if message.content.startswith("yoshii wake up"):
     isActive = True
-    await client.change_presence(status=discord.Status.online, activity=random_game_status())
     await message.channel.send(random.choice(greetings))
   elif message.content.startswith("yoshii sleep"):
     isActive = False
@@ -216,7 +217,6 @@ async def on_message(message):
       await message.channel.send(embed=google_searcher(message.content.split(' ')[1:]))
 
     # Last condition
-    # Listening for insults_keywords
     else:
       for word in insults_keywords:
         if word in message.content.lower():
@@ -225,6 +225,9 @@ async def on_message(message):
             if (str(message.author.id) not in whitelist):
               await message.channel.send(get_insults(word))
 
+@tasks.loop(seconds=1800)
+async def change_status():
+  await client.change_presence(status=discord.Status.online, activity=random_game_status())
 # ---------------------------------------------------------------------------------------------------------------------------
 keep_alive()
 client.run(os.getenv('BOT_TOKEN'))
