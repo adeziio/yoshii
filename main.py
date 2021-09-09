@@ -79,6 +79,9 @@ whitelist = [
 def random_game_status():
   return discord.Game(name=random.choice(game_list))
 
+def random_song_status():
+  return discord.Activity(type=discord.ActivityType.listening, name="Spotify")
+
 def get_insults(word):
   return random.choice(insults_output) + word
 
@@ -225,9 +228,15 @@ async def on_message(message):
             if (str(message.author.id) not in whitelist):
               await message.channel.send(get_insults(word))
 
-@tasks.loop(seconds=1800)
+@tasks.loop(seconds=900)
 async def change_status():
-  await client.change_presence(status=discord.Status.online, activity=random_game_status())
+  ran_num = random.randint(1,2)
+  if ran_num == 1:
+    # Setting `Playing ` status
+    await client.change_presence(status=discord.Status.online, activity=random_game_status())
+  if ran_num == 2:
+    # Setting `Listening ` status
+    await client.change_presence(activity=random_song_status())
 # ---------------------------------------------------------------------------------------------------------------------------
 keep_alive()
 client.run(os.getenv('BOT_TOKEN'))
