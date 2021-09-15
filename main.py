@@ -38,6 +38,9 @@ insults_keywords = [
   'weird',
   'scary',
   'buffalo',
+  "shit",
+  "joke",
+  "low settings",
 ]
 
 insults_output = [
@@ -87,7 +90,10 @@ def random_song_status():
 def get_insults(word):
   return random.choice(insults_output) + word
 
-def get_insp_quote(person):
+def get_insp_quote(personList):
+  person = ""
+  for p in range(len(personList)):
+    person += personList[p] + " " if p != len(personList)-1 else personList[p]
   omit = ["i", "me", "he", "she", "her", "him"]
   json_res = requests.get("https://zenquotes.io/api/random").json()
   quote = json_res[0]['q']
@@ -95,7 +101,10 @@ def get_insp_quote(person):
   inspire = "{0}".format(quote)
   return person.capitalize() + ". " + inspire if person.lower() not in omit else "" + inspire
 
-def get_roasted(person):
+def get_roasted(personList):
+  person = ""
+  for p in range(len(personList)):
+    person += personList[p] + " " if p != len(personList)-1 else personList[p]
   omit = ["天", "yoshii", "yoshi", "i", "me", "he", "she", "her", "him", "thien", "aden", "thein", "thienn", "adenn", "theinn"]
   repsonses = ["nah", "no", "try again", "wut"]
   if person.lower() in omit:
@@ -125,8 +134,8 @@ def get_joke():
 
 def google_searcher(searchList):
   newSearch = ""
-  for search in searchList:
-    newSearch += search + "+"
+  for s in searchList:
+    newSearch += searchList[s] + "+" if s != len(searchList)-1 else searchList[s]
   headers = {
     'x-rapidapi-host': "google-search3.p.rapidapi.com",
     'x-rapidapi-key': os.getenv('GOOGLE_SEARCH_TOKEN')
@@ -192,12 +201,12 @@ async def on_message(message):
 
     # Random inspirational quotes
     elif message.content.startswith("yoshii inspire "):
-      await message.channel.send(get_insp_quote(message.content.split(' ')[-1]))
+      await message.channel.send(get_insp_quote(message.content.split(' ')[2:]))
 
     # Random roasts
     elif message.content.startswith("yoshii roast "):
       if str(message.author.id) not in roast_blacklist:
-        await message.channel.send(get_roasted(message.content.split(' ')[-1]))
+        await message.channel.send(get_roasted(message.content.split(' ')[2:]))
       else:
         await message.channel.send("nah, ur banned")
     
@@ -219,7 +228,7 @@ async def on_message(message):
 
     # Google search
     elif message.content.startswith("yoshii search "):
-      await message.channel.send(embed=google_searcher(message.content.split(' ')[1:]))
+      await message.channel.send(embed=google_searcher(message.content.split(' ')[2:]))
 
     # Last condition
     else:
