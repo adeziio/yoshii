@@ -2,6 +2,7 @@ import discord
 import os
 import random
 import requests
+import json
 from discord.ext import tasks
 from keep_alive import keep_alive
 
@@ -50,6 +51,14 @@ insults_output = [
   "ur mum is ",
   "boi ur face is ",
   "boi ya look like a ",
+]
+
+peacemaker = [
+  "calm down jamal",
+  "damn bruh",
+  "chill bruh",
+  "chill out",
+  "woah take it easy man",
 ]
 
 greetings = [
@@ -157,6 +166,22 @@ def google_searcher(searchList):
   embed.set_footer(text="")
   return embed
 
+def sentiment_analysis(text):
+  url = "https://text-analysis12.p.rapidapi.com/sentiment-analysis/api/v1.1"
+  payload = {
+    "language": "english",
+    "text": text
+  }
+  headers = {
+    'content-type': "application/json",
+    'x-rapidapi-host': "text-analysis12.p.rapidapi.com",
+    'x-rapidapi-key': os.getenv("RAPID_API_KEY")
+  }
+
+  response = requests.post(url, data=json.dumps(payload), headers=headers).json()
+  return response['sentiment']
+
+
 # ---------------------------------------------------------------------------------------------------------------------------
 @client.event
 async def on_ready():
@@ -186,6 +211,9 @@ async def on_message(message):
     # Prevent infinite loop
     if message.author == client.user:
       return
+
+    elif sentiment_analysis(message.content) == 'negative' and (str(message.author.id) not in whitelist):
+      await message.channel.send(random.choice(peacemaker))
 
     # Add to insults_keywords
     elif message.content.startswith("yoshii add "):
