@@ -31,4 +31,4 @@
 
 ### Note:
 #### aside from roasting, yoshii can also help you do a quick search on the web.
-#### yoshii constantly reads your chat. Be careful when typing because you might get roasted. Good luck!
+#### yoshii constantly reads your chat and runs a sentiment analysis on you, so be careful when typing because you might get roasted. Good luck!
