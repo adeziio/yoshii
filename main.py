@@ -1,188 +1,13 @@
 import discord
 import os
-import random
-import requests
-import json
 from discord.ext import tasks
 from keep_alive import keep_alive
+from var import *
+from func import *
 
 client = discord.Client()
-
 isActive = True
 
-game_list = [
-  "Super Mario World 2: Yoshi's Island",
-  "Yoshi's Story",
-  "Yoshi's Universal Gravitation",
-  "Yoshi Touch & Go",
-  "Yoshi's Island DS",
-  "Yoshi's New Island",
-  "Yoshi's Woolly World",
-  "Yoshi's Crafted World",
-  "VALORANT",
-  "League of Legends",
-]
-
-insults_keywords = [
-  'crazy',
-  'funny',
-  'poop',
-  'huge',
-  'dumb',
-  'stupid',
-  'stoopid',
-  'ugly',
-  'big',
-  'sad',
-  'fat',
-  'apple',
-  'weird',
-  'scary',
-  'buffalo',
-  "shit",
-  "joke",
-  "low settings",
-]
-
-insults_output = [
-  "ur face is ",
-  "u look like a ",
-  "boi ur forehead is ",
-  "ur mum is ",
-  "boi ur face is ",
-  "boi ya look like a ",
-]
-
-peacemaker = [
-  "calm down jamal",
-  "damn bruh",
-  "chill bruh",
-  "chill out",
-  "woah take it easy man",
-]
-
-greetings = [
-  "Ooga! Yoshi boogie!",
-  "Yoshi! Yoshi!",
-  "YOSHI, FAIRY OF DRAGON FLAME!!!",
-  "Oogabooga! I ready, and hungry!",
-  "YOSHI TO RESCUE!!!",
-]
-
-goodbyes = [
-  "Scooze me!",
-  "This means war!",
-  "Nooooooo",
-  "Ohhhh.... Yoshi no feel good!",
-  "Aww, do I have to go to bed so soon?",
-  "Night, Mama Luigi!",
-  "Hey! I still hungry!",
-]
-
-roast_blacklist = [
-  "758086695949434911",
-  "316687901884678144",
-  "669660483833561110",
-]
-
-whitelist = [
-  "333025781309767684",
-]
-
-# ---------------------------------------------------------------------------------------------------------------------------
-def random_game_status():
-  return discord.Game(name=random.choice(game_list))
-
-def random_song_status():
-  return discord.Activity(type=discord.ActivityType.listening, name="Spotify")
-
-def get_insults(word):
-  return random.choice(insults_output) + word
-
-def get_insp_quote(personList):
-  person = ""
-  for p in range(len(personList)):
-    person += personList[p] + " " if p != len(personList)-1 else personList[p]
-  omit = ["i", "me", "he", "she", "her", "him"]
-  json_res = requests.get("https://zenquotes.io/api/random").json()
-  quote = json_res[0]['q']
-  # author = json_res[0]['a']
-  inspire = "{0}".format(quote)
-  return person.capitalize() + ". " + inspire if person.lower() not in omit else "" + inspire
-
-def get_roasted(personList):
-  person = ""
-  for p in range(len(personList)):
-    person += personList[p] + " " if p != len(personList)-1 else personList[p]
-  omit = ["天", "yoshii", "yoshi", "i", "me", "he", "she", "her", "him", "thien", "aden", "thein", "thienn", "adenn", "theinn"]
-  repsonses = ["nah", "no", "try again", "wut"]
-  if person.lower() in omit:
-    return random.choice(repsonses)
-  else:
-    return requests.get("https://insult.mattbas.org/api/en/insult.txt?who="+person.capitalize()).text
-
-def photo_searcher_cat():
-  cat_photo_res = requests.get("https://api.thecatapi.com/v1/images/search").json()[0]
-  cat_photo_url = cat_photo_res['url']
-  cat_photo_width = cat_photo_res['width']
-  cat_photo_height = cat_photo_res['height']
-  cat_fact =  requests.get("https://catfact.ninja/fact").json()['fact']
-  embed = discord.Embed(
-          title = 'Fun Fact 🐈',
-          description = cat_fact,
-          colour = discord.Colour.purple(),
-          width = cat_photo_width,
-          height = cat_photo_height
-          )
-  embed.set_image(url=cat_photo_url)
-  embed.set_footer(text="")
-  return embed
-
-def get_joke():
-  return requests.get("https://v2.jokeapi.dev/joke/Any?type=single").json()['joke']
-
-def google_searcher(searchList):
-  newSearch = ""
-  for s in searchList:
-    newSearch += searchList[s] + "+" if s != len(searchList)-1 else searchList[s]
-  headers = {
-    'x-rapidapi-host': "google-search3.p.rapidapi.com",
-    'x-rapidapi-key': os.getenv('GOOGLE_SEARCH_TOKEN')
-    }
-  search_image = requests.get("https://google-search3.p.rapidapi.com/api/v1/images/q="+newSearch, headers=headers).json()['image_results'][0]
-  search = requests.get("https://google-search3.p.rapidapi.com/api/v1/search/q="+newSearch, headers=headers).json()['results'][0]
-  image_url = search_image['image']['src']
-  search_title = search['title']
-  search_link = search['link']
-  search_description = search['description']
-
-  embed = discord.Embed(
-          title = search_title,
-          description = search_description,
-          url = search_link,
-          colour = discord.Colour.blue()
-          )
-  embed.set_image(url=image_url)
-  embed.set_footer(text="")
-  return embed
-
-def sentiment_analysis(text):
-  url = "https://text-analysis12.p.rapidapi.com/sentiment-analysis/api/v1.1"
-  payload = {
-    "language": "english",
-    "text": text
-  }
-  headers = {
-    'content-type': "application/json",
-    'x-rapidapi-host': "text-analysis12.p.rapidapi.com",
-    'x-rapidapi-key': os.getenv("RAPID_API_KEY")
-  }
-
-  response = requests.post(url, data=json.dumps(payload), headers=headers).json()
-  return response['sentiment']
-
-
-# ---------------------------------------------------------------------------------------------------------------------------
 @client.event
 async def on_ready():
   change_status.start()
@@ -213,7 +38,9 @@ async def on_message(message):
       return
 
     elif sentiment_analysis(message.content) == 'negative' and (str(message.author.id) not in whitelist):
-      await message.channel.send(random.choice(peacemaker))
+      ran_num = random.randint(1, 4)
+      if ran_num == 1:
+        await message.channel.send(random.choice(peacemaker))
 
     # Add to insults_keywords
     elif message.content.startswith("yoshii add "):
