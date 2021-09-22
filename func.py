@@ -57,8 +57,9 @@ def get_joke():
   return requests.get("https://v2.jokeapi.dev/joke/Any?type=single").json()['joke']
 
 def google_searcher(searchList):
+  print("searchList = ",searchList)
   newSearch = ""
-  for s in searchList:
+  for s in range(len(searchList)):
     newSearch += searchList[s] + "+" if s != len(searchList)-1 else searchList[s]
   headers = {
     'x-rapidapi-host': "google-search3.p.rapidapi.com",
