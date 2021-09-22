@@ -3,7 +3,7 @@ import os
 import requests
 import json
 import random
-from var import *
+from var import game_list, insults_output
 
 def random_game_status():
   return discord.Game(name=random.choice(game_list))
