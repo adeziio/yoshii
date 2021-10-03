@@ -43,11 +43,13 @@ insults_output = [
 ]
 
 peacemaker = [
+  "calm down bro",
   "calm down jamal",
-  "damn bruh",
-  "chill bruh",
-  "chill out",
+  "damn bro",
+  "chill out bro",
   "woah take it easy man",
+  "relax",
+  "woahh",
 ]
 
 greetings = [

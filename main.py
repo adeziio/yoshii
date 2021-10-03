@@ -33,15 +33,13 @@ async def on_message(message):
 
   # Do these only when active
   if isActive:
-    # print(message.author.name, message.author.id, type(message.author.id))
+    print(message.author.name, message.author.id, type(message.author.id))
     # Prevent infinite loop
     if message.author == client.user:
       return
 
     elif sentiment_analysis(message.content) == 'negative' and (str(message.author.id) not in whitelist):
-      ran_num = random.randint(1, 4)
-      if ran_num == 1:
-        await message.channel.send(random.choice(peacemaker))
+      await message.channel.send(random.choice(peacemaker))
 
     # Add to insults_keywords
     elif message.content.startswith("yoshii add "):
