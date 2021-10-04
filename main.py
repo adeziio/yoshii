@@ -39,7 +39,9 @@ async def on_message(message):
       return
 
     elif sentiment_analysis(message.content) == 'negative' and (str(message.author.id) not in whitelist):
-      await message.channel.send(random.choice(peacemaker))
+      ran_num = random.randint(1,4)
+      if ran_num == 1:
+        await message.channel.send(random.choice(peacemaker))
 
     # Add to insults_keywords
     elif message.content.startswith("yoshii add "):
