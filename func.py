@@ -63,7 +63,7 @@ def google_searcher(searchList):
   headers = {
     'x-rapidapi-host': "google-search3.p.rapidapi.com",
     'x-rapidapi-key': os.getenv('GOOGLE_SEARCH_TOKEN')
-    }
+  }
   search_image = requests.get("https://google-search3.p.rapidapi.com/api/v1/images/q="+newSearch, headers=headers).json()['image_results'][0]
   search = requests.get("https://google-search3.p.rapidapi.com/api/v1/search/q="+newSearch, headers=headers).json()['results'][0]
   image_url = search_image['image']['src']

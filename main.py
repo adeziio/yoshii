@@ -4,7 +4,7 @@ import random
 from keep_alive import keep_alive
 from discord.ext import tasks
 from var import greetings, goodbyes, whitelist, peacemaker, insults_keywords, roast_blacklist
-from func import sentiment_analysis, get_insp_quote, get_roasted, photo_searcher_cat, get_joke, google_searcher, get_insults, random_game_status, random_song_status
+from func import sentiment_analysis, get_insp_quote, get_roasted, photo_searcher_cat, get_joke, google_searcher, youtube_searcher, get_insults, random_game_status, random_song_status
 
 client = discord.Client()
 isActive = True
@@ -83,9 +83,9 @@ async def on_message(message):
       await message.channel.send(random.choice(greetings))
 
     # Google search
-    elif message.content.startswith("yoshii search "):
+    elif message.content.startswith("yoshii google "):
       await message.channel.send(embed=google_searcher(message.content.split(' ')[2:]))
-
+    
     # Last condition
     else:
       for word in insults_keywords:
