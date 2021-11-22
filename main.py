@@ -33,7 +33,7 @@ async def on_message(message):
 
   # Do these only when active
   if isActive:
-    print(message.author.name, message.author.id, type(message.author.id))
+    # print(message.author.name, message.author.id, type(message.author.id))
     # Prevent infinite loop
     if message.author == client.user:
       return
