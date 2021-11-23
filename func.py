@@ -94,4 +94,7 @@ def sentiment_analysis(text):
   }
 
   response = requests.post(url, data=json.dumps(payload), headers=headers).json()
-  return response['sentiment']
+  if response['ok']:
+    return response['sentiment']
+  else:
+    return ""
