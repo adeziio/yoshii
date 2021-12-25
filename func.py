@@ -64,12 +64,21 @@ def google_searcher(searchList):
     'x-rapidapi-host': "google-search3.p.rapidapi.com",
     'x-rapidapi-key': os.getenv('GOOGLE_SEARCH_TOKEN')
   }
-  search_image = requests.get("https://google-search3.p.rapidapi.com/api/v1/images/q="+newSearch, headers=headers).json()['image_results'][0]
-  search = requests.get("https://google-search3.p.rapidapi.com/api/v1/search/q="+newSearch, headers=headers).json()['results'][0]
-  image_url = search_image['image']['src']
-  search_title = search['title']
-  search_link = search['link']
-  search_description = search['description']
+  try:
+    search_image = requests.get("https://google-search3.p.rapidapi.com/api/v1/images/q="+newSearch, headers=headers).json()['image_results'][0]
+    image_url = search_image['image']['src']
+  except:
+    image_url = ""
+  
+  try:
+    search = requests.get("https://google-search3.p.rapidapi.com/api/v1/search/q="+newSearch, headers=headers).json()['results'][0]
+    search_title = search['title']
+    search_link = search['link']
+    search_description = search['description']
+  except:
+    search_title = ""
+    search_description = ""
+    search_link = ""
 
   embed = discord.Embed(
           title = search_title,
