@@ -83,8 +83,8 @@ async def on_message(message):
       await message.channel.send(random.choice(greetings))
 
     # Google search
-    elif message.content.startswith("yoshii google "):
-      await message.channel.send(embed=google_searcher(message.content.split(' ')[2:]))
+    elif message.content.startswith("yoshii "):
+      await message.channel.send(embed=google_searcher(message.content.split(' ')[1:]))
     
     # Last condition
     else:
