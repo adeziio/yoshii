@@ -113,11 +113,16 @@ def get_chatbot(searchList):
   for s in range(len(searchList)):
     newSearch += searchList[s] + " " if s != len(searchList)-1 else searchList[s]
   url = "https://acobot-brainshop-ai-v1.p.rapidapi.com/get"
-  querystring = {"bid":"178","key":"sX5A2PcYZbsN5EY6","uid":"mashape","msg":newSearch}
+  querystring = {
+    "bid": os.getenv("BRAINSHOP_AI_ID"),
+    "key": os.getenv("BRAINSHOP_AI_KEY"),
+    "uid": os.getenv("BRAINSHOP_AI_UID"),
+    "msg":newSearch
+  }
   headers = {
-      'x-rapidapi-host': "acobot-brainshop-ai-v1.p.rapidapi.com",
-      'x-rapidapi-key': os.getenv("RAPID_API_KEY")
-      }
+    'x-rapidapi-host': "acobot-brainshop-ai-v1.p.rapidapi.com",
+    'x-rapidapi-key': os.getenv("RAPID_API_KEY")
+  }
   response = requests.request("GET", url, headers=headers, params=querystring).json()
   if response:
     return response['cnt']
