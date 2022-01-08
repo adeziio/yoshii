@@ -113,6 +113,7 @@ def get_chatbot(searchList):
   for s in range(len(searchList)):
     newSearch += searchList[s] + " " if s != len(searchList)-1 else searchList[s]
   newSearch = newSearch.lower().replace("yoshii", "")
+  newSearch = newSearch.lower().replace("male", "female")
   url = "https://acobot-brainshop-ai-v1.p.rapidapi.com/get"
   querystring = {
     "bid": os.getenv("BRAINSHOP_AI_ID"),
@@ -129,7 +130,7 @@ def get_chatbot(searchList):
     resMsg = response['cnt']
     resMsg = resMsg.replace("Aco", "yoshii")
     resMsg = resMsg.replace("yoshiibot Team", "Aden Tran")
-    resMsg = resMsg.replace("female chatbot", "male chatbot")
+    resMsg = resMsg.replace("female", "male")
     return resMsg
   else:
     return ""
