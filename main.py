@@ -38,16 +38,10 @@ async def on_message(message):
     if message.author == client.user:
       return
 
-    # elif sentiment_analysis(message.content) == 'negative' and (str(message.author.id) not in whitelist):
-    #   ran_num = random.randint(1,4)
-    #   if ran_num == 1:
-    #     await message.channel.send(random.choice(peacemaker))
-
-    # Add to insults_keywords
-    elif message.content.startswith("yoshii add "):
-      await message.channel.send(message.content.split(' ')[-1] + " added to keywords")
-      if message.content.split(' ')[-1] not in insults_keywords:
-        insults_keywords.append(message.content.split(' ')[-1])
+    elif sentiment_analysis(message.content) == 'negative' and (str(message.author.id) not in whitelist):
+      ran_num = random.randint(1,4)
+      if ran_num == 1:
+        await message.channel.send(random.choice(peacemaker))
 
     # Remove from insults_keywords
     elif message.content.startswith("yoshii remove "):
@@ -90,11 +84,17 @@ async def on_message(message):
     elif message.content.startswith("yoshii "):
       await message.channel.send(get_chatbot(message.content.split(' ')[1:]))
 
+    # Add to insults_keywords
+    elif message.content.startswith("yoshii add "):
+      await message.channel.send(message.content.split(' ')[-1] + " added to keywords")
+      if message.content.split(' ')[-1] not in insults_keywords:
+        insults_keywords.append(message.content.split(' ')[-1])
+
     # Last condition
     else:
       for word in insults_keywords:
         if word in message.content.lower():
-          ran_num = random.randint(1, 1)
+          ran_num = random.randint(1, 2)
           if ran_num == 1:
             if (str(message.author.id) not in whitelist):
               await message.channel.send(get_insults(word))
