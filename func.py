@@ -129,7 +129,7 @@ def get_chatbot(searchList):
     resMsg = response['cnt']
     resMsg = resMsg.replace("Aco", "yoshii")
     resMsg = resMsg.replace("yoshiibot Team", "Aden Tran")
-
+    resMsg = resMsg.replace("Ava", "Friend")
     return resMsg
   else:
     return ""
