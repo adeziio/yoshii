@@ -114,6 +114,7 @@ def get_chatbot(searchList):
     newSearch += searchList[s] + " " if s != len(searchList)-1 else searchList[s]
   newSearch = newSearch.lower().replace("yoshii", "aco")
   newSearch = newSearch.lower().replace("male", "female")
+  newSearch = newSearch.lower().replace("+", "%2B")
   url = "https://acobot-brainshop-ai-v1.p.rapidapi.com/get"
   querystring = {
     "bid": os.getenv("BRAINSHOP_AI_ID"),
