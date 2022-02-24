@@ -112,26 +112,26 @@ def get_chatbot(searchList):
   newSearch = ""
   for s in range(len(searchList)):
     newSearch += searchList[s] + " " if s != len(searchList)-1 else searchList[s]
-  newSearch = newSearch.lower().replace("yoshii", "aco")
-  newSearch = newSearch.lower().replace("male", "female")
+  newSearch = newSearch.lower().replace("yoshii", "RoboMatic")
   newSearch = newSearch.lower().replace("+", "%2B")
-  url = "https://acobot-brainshop-ai-v1.p.rapidapi.com/get"
-  querystring = {
-    "bid": os.getenv("BRAINSHOP_AI_ID"),
-    "key": os.getenv("BRAINSHOP_AI_KEY"),
-    "uid": os.getenv("BRAINSHOP_AI_UID"),
-    "msg":newSearch
-  }
+  url = "https://robomatic-ai.p.rapidapi.com/api.php"
+
+  payload = "in=" + newSearch + "F&op=in&cbot=1&SessionID=RapidAPI1&ChatSource=RapidAPI&cbid=1&key=" + os.getenv("ROBOMATIC_KEY")
   headers = {
-    'x-rapidapi-host': "acobot-brainshop-ai-v1.p.rapidapi.com",
-    'x-rapidapi-key': os.getenv("RAPID_API_KEY")
-  }
-  response = requests.request("GET", url, headers=headers, params=querystring).json()
+      'content-type': "application/x-www-form-urlencoded",
+      'x-rapidapi-host': "robomatic-ai.p.rapidapi.com",
+      'x-rapidapi-key': os.getenv("RAPID_API_KEY")
+      }
+  
+  response = requests.request("POST", url, data=payload, headers=headers).json()
   if response:
-    resMsg = response['cnt']
-    resMsg = resMsg.replace("Aco", "yoshii")
-    resMsg = resMsg.replace("yoshiibot Team", "Aden Tran")
-    resMsg = resMsg.replace("female", "male")
+    resMsg = response['out']
+    resMsg = resMsg.replace("RoboMatic", "yoshii")
+    resMsg = resMsg.replace("Ehab Elagizy", "Aden Tran")
+    resMsg = resMsg.replace("back in 2001", "back in 2021")
+    resMsg = resMsg.replace("since 1995", "since 2021")
+    resMsg = resMsg.replace("Later in 2011", "In 2021")
+    resMsg = resMsg.replace("Egyptian", "Vietnamese")
     return resMsg
   else:
     return ""
