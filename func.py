@@ -109,6 +109,7 @@ def sentiment_analysis(text):
     return ""
 
 def get_chatbot(searchList):
+  
   newSearch = ""
   for s in range(len(searchList)):
     newSearch += searchList[s] + " " if s != len(searchList)-1 else searchList[s]
