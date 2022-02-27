@@ -3,7 +3,7 @@ import os
 import requests
 import json
 import random
-from var import game_list, insults_output
+from var import game_list, insults_output, greetings
 
 def random_game_status():
   return discord.Game(name=random.choice(game_list))
@@ -109,14 +109,13 @@ def sentiment_analysis(text):
     return ""
 
 def get_chatbot(searchList):
-  
   newSearch = ""
   for s in range(len(searchList)):
     newSearch += searchList[s] + " " if s != len(searchList)-1 else searchList[s]
   newSearch = newSearch.lower().replace("yoshii", "RoboMatic")
   newSearch = newSearch.lower().replace("+", "%2B")
   url = "https://robomatic-ai.p.rapidapi.com/api.php"
-
+  
   payload = "in=" + newSearch + "F&op=in&cbot=1&SessionID=RapidAPI1&ChatSource=RapidAPI&cbid=1&key=" + os.getenv("ROBOMATIC_KEY")
   headers = {
       'content-type': "application/x-www-form-urlencoded",
@@ -126,13 +125,16 @@ def get_chatbot(searchList):
   
   response = requests.request("POST", url, data=payload, headers=headers).json()
   if response:
-    resMsg = response['out']
-    resMsg = resMsg.replace("RoboMatic", "yoshii")
-    resMsg = resMsg.replace("Ehab Elagizy", "Aden Tran")
-    resMsg = resMsg.replace("back in 2001", "back in 2021")
-    resMsg = resMsg.replace("since 1995", "since 2021")
-    resMsg = resMsg.replace("Later in 2011", "In 2021")
-    resMsg = resMsg.replace("Egyptian", "Vietnamese")
-    return resMsg
+    try:
+      resMsg = response['out']
+      resMsg = resMsg.replace("RoboMatic", "yoshii")
+      resMsg = resMsg.replace("Ehab Elagizy", "Aden Tran")
+      resMsg = resMsg.replace("back in 2001", "back in 2021")
+      resMsg = resMsg.replace("since 1995", "since 2021")
+      resMsg = resMsg.replace("Later in 2011", "In 2021")
+      resMsg = resMsg.replace("Egyptian", "Vietnamese")
+      return resMsg
+    except Exception:
+      return random.choice(greetings)
   else:
-    return ""
+    return random.choice(greetings)
