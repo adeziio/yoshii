@@ -71,10 +71,6 @@ async def on_message(message):
     # Output the list of insults_keywords
     elif message.content.startswith("yoshii keywords"):
       await message.channel.send(insults_keywords)
-    
-    # Default greetings
-    elif message.content.endswith("yoshii"):
-      await message.channel.send(random.choice(greetings))
 
     # Google search
     elif message.content.startswith("yoshii search "):
@@ -82,13 +78,18 @@ async def on_message(message):
     
     # Default chatbot 
     elif message.content.startswith("yoshii "):
-      await message.channel.send(get_chatbot(message.content.split(' ')[1:]))
+      async with message.channel.typing():
+        await message.channel.send(get_chatbot(message.content.split(' ')[1:]))
 
     # Add to insults_keywords
     elif message.content.startswith("yoshii add "):
       await message.channel.send(message.content.split(' ')[-1] + " added to keywords")
       if message.content.split(' ')[-1] not in insults_keywords:
         insults_keywords.append(message.content.split(' ')[-1])
+
+    # Default greetings
+    elif message.content.endswith("yoshii"):
+      await message.channel.send(random.choice(greetings))
 
     # Last condition
     else:
