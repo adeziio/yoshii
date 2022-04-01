@@ -127,6 +127,7 @@ def get_chatbot(searchList):
   if response:
     try:
       resMsg = response['out']
+      resMsg = resMsg.replace("I said it before, ", "")
       resMsg = resMsg.replace("RoboMatic", "yoshii")
       resMsg = resMsg.replace("Ehab Elagizy", "Aden Tran")
       resMsg = resMsg.replace("back in 2001", "back in 2021")
