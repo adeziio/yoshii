@@ -14,21 +14,14 @@ def random_song_status():
 def get_insults(word):
   return random.choice(insults_output) + word
 
-def get_insp_quote(personList):
-  person = ""
-  for p in range(len(personList)):
-    person += personList[p] + " " if p != len(personList)-1 else personList[p]
-  omit = ["i", "me", "he", "she", "her", "him"]
+def get_insp_quote():
   json_res = requests.get("https://zenquotes.io/api/random").json()
   quote = json_res[0]['q']
   # author = json_res[0]['a']
   inspire = "{0}".format(quote)
-  return person.capitalize() + ". " + inspire if person.lower() not in omit else "" + inspire
+  return inspire
 
-def get_roasted(personList):
-  person = ""
-  for p in range(len(personList)):
-    person += personList[p] + " " if p != len(personList)-1 else personList[p]
+def get_roasted(person):
   omit = ["天", "yoshii", "yoshi", "i", "me", "he", "she", "her", "him", "thien", "aden", "thein", "thienn", "adenn", "theinn"]
   repsonses = ["nah", "no", "try again", "wut"]
   if person.lower() in omit:
@@ -56,22 +49,19 @@ def photo_searcher_cat():
 def get_joke():
   return requests.get("https://v2.jokeapi.dev/joke/Any?type=single").json()['joke']
 
-def google_searcher(searchList):
-  newSearch = ""
-  for s in range(len(searchList)):
-    newSearch += searchList[s] + "+" if s != len(searchList)-1 else searchList[s]
+def google_searcher(search):
   headers = {
     'x-rapidapi-host': "google-search3.p.rapidapi.com",
     'x-rapidapi-key': os.getenv('GOOGLE_SEARCH_TOKEN')
   }
   try:
-    search_image = requests.get("https://google-search3.p.rapidapi.com/api/v1/images/q="+newSearch, headers=headers).json()['image_results'][0]
+    search_image = requests.get("https://google-search3.p.rapidapi.com/api/v1/images/q="+search, headers=headers).json()['image_results'][0]
     image_url = search_image['image']['src']
   except:
     image_url = ""
   
   try:
-    search = requests.get("https://google-search3.p.rapidapi.com/api/v1/search/q="+newSearch, headers=headers).json()['results'][0]
+    search = requests.get("https://google-search3.p.rapidapi.com/api/v1/search/q="+search, headers=headers).json()['results'][0]
     search_title = search['title']
     search_link = search['link']
     search_description = search['description']

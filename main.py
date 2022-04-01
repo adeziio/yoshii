@@ -19,14 +19,14 @@ async def on_message(message):
   global isActive
 
   # Check status 
-  if message.content.startswith("yoshii status"):
+  if "yoshii status" in message.content:
     await message.channel.send("I'm awake!" if isActive else "I'm asleep...zZzZzZ")
 
   # Set awake or sleep
-  if message.content.startswith("yoshii wake up"):
+  if "yoshii wake up" in message.content:
     isActive = True
     await message.channel.send(random.choice(greetings))
-  elif message.content.startswith("yoshii sleep"):
+  elif "yoshii sleep" in message.content:
     isActive = False
     await client.change_presence(status=discord.Status.idle, activity=None)
     await message.channel.send(random.choice(goodbyes))
@@ -37,61 +37,47 @@ async def on_message(message):
     # Prevent infinite loop
     if message.author == client.user:
       return
-
-    elif sentiment_analysis(message.content) == 'negative' and (str(message.author.id) not in whitelist):
-      ran_num = random.randint(1,4)
-      if ran_num == 1:
-        await message.channel.send(random.choice(peacemaker))
-
-    # Remove from insults_keywords
-    elif message.content.startswith("yoshii remove "):
-      await message.channel.send(message.content.split(' ')[-1] + " removed from keywords")
-      if message.content.split(' ')[-1] in insults_keywords:
-        insults_keywords.remove(message.content.split(' ')[-1])
-
-    # Random inspirational quotes
-    elif message.content.startswith("yoshii inspire "):
-      await message.channel.send(get_insp_quote(message.content.split(' ')[2:]))
-
-    # Random roasts
-    elif message.content.startswith("yoshii roast "):
-      if str(message.author.id) not in roast_blacklist:
-        await message.channel.send(get_roasted(message.content.split(' ')[2:]))
-      else:
-        await message.channel.send("nah, ur banned")
-    
-    # Random cat photos
-    elif message.content.startswith("yoshii cat"):
-      await message.channel.send(embed=photo_searcher_cat())
-
-    # Random joke
-    elif message.content.startswith("yoshii tell a joke"):
-      await message.channel.send(get_joke())
-
-    # Output the list of insults_keywords
-    elif message.content.startswith("yoshii keywords"):
-      await message.channel.send(insults_keywords)
-
-    # Google search
-    elif message.content.startswith("yoshii search "):
-      await message.channel.send(embed=google_searcher(message.content.split(' ')[2:]))
-    
-    # Default chatbot 
-    elif message.content.startswith("yoshii "):
+    if(message.content.startswith("yoshii")):
       async with message.channel.typing():
-        await message.channel.send(get_chatbot(message.content.split(' ')[1:]))
+        text = " ".join(message.content.split(' ')[1:])
+        
+        if sentiment_analysis(text) == 'negative':
+          ran_num = random.randint(1,4)
+          if ran_num == 1:
+            await message.channel.send(random.choice(peacemaker))
+    
+        # Random inspirational quote
+        elif ("inspire" in text) or ("inspirational" in text) or ("inspiration" in text):
+          await message.channel.send(get_insp_quote())
+    
+        # Manual roast
+        elif ("roast" in text):
+          if str(message.author.id) not in roast_blacklist:
+            await message.channel.send(get_roasted(" ".join(text.split(' ')[1:])))
+          else:
+            await message.channel.send("nah, ur banned")
+        
+        # Random cat photos
+        elif ("cat" in text) or ("cat photo" in text) or ("cat photos" in text):
+          await message.channel.send(embed=photo_searcher_cat())
+    
+        # Random joke
+        elif ("joke" in text):
+          await message.channel.send(get_joke())
+    
+        # Google search
+        elif ("search up" in text) or ("look up" in text) or ("google" in text) or ("search" in text):
+          await message.channel.send(embed=google_searcher(text))
+        
+        # Default greetings
+        elif text.endswith("yoshii"):
+          await message.channel.send(random.choice(greetings))
 
-    # Add to insults_keywords
-    elif message.content.startswith("yoshii add "):
-      await message.channel.send(message.content.split(' ')[-1] + " added to keywords")
-      if message.content.split(' ')[-1] not in insults_keywords:
-        insults_keywords.append(message.content.split(' ')[-1])
-
-    # Default greetings
-    elif message.content.endswith("yoshii"):
-      await message.channel.send(random.choice(greetings))
-
-    # Last condition
+        # Default chatbot 
+        else:
+          await message.channel.send(get_chatbot(text))
+    
+    # Default roast
     else:
       for word in insults_keywords:
         if word in message.content.lower():
