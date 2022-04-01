@@ -98,15 +98,12 @@ def sentiment_analysis(text):
   else:
     return ""
 
-def get_chatbot(searchList):
-  newSearch = ""
-  for s in range(len(searchList)):
-    newSearch += searchList[s] + " " if s != len(searchList)-1 else searchList[s]
-  newSearch = newSearch.lower().replace("yoshii", "RoboMatic")
-  newSearch = newSearch.lower().replace("+", "%2B")
+def get_chatbot(search):
+  search = search.lower().replace("yoshii", "RoboMatic")
+  search = search.lower().replace("+", "%2B")
   url = "https://robomatic-ai.p.rapidapi.com/api.php"
   
-  payload = "in=" + newSearch + "F&op=in&cbot=1&SessionID=RapidAPI1&ChatSource=RapidAPI&cbid=1&key=" + os.getenv("ROBOMATIC_KEY")
+  payload = "in=" + search + "F&op=in&cbot=1&SessionID=RapidAPI1&ChatSource=RapidAPI&cbid=1&key=" + os.getenv("ROBOMATIC_KEY")
   headers = {
       'content-type': "application/x-www-form-urlencoded",
       'x-rapidapi-host': "robomatic-ai.p.rapidapi.com",
