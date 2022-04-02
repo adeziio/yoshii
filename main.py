@@ -103,4 +103,4 @@ async def change_status():
     await client.change_presence(activity=random_song_status())
 
 keep_alive()
-client.run(os.getenv('BOT_TOKEN'))
+client.run(os.getenv('YOSHII_TOKEN'))
