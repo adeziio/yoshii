@@ -13,5 +13,5 @@
 ### yoshii search up how to eat a banana
 ### yoshii ...(say anything)...
 
-### Note:
-#### yoshii constantly read your chat and run a sentiment analysis on you.
+# Note: 
+### yoshii constantly read your chat and run a sentiment analysis on you.
