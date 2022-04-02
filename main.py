@@ -18,18 +18,24 @@ async def on_ready():
 async def on_message(message):
   global isActive
 
-  # Check status 
-  if "yoshii status" in message.content:
-    await message.channel.send("I'm awake!" if isActive else "I'm asleep...zZzZzZ")
-
-  # Set awake or sleep
-  if "yoshii wake up" in message.content:
-    isActive = True
-    await message.channel.send(random.choice(greetings))
-  elif "yoshii sleep" in message.content:
-    isActive = False
-    await client.change_presence(status=discord.Status.idle, activity=None)
-    await message.channel.send(random.choice(goodbyes))
+  # Check status
+  if(message.content.startswith("yoshii")):
+    async with message.channel.typing():
+      if "status" in message.content:
+        await message.channel.send("I'm awake!" if isActive else "I'm asleep...zZzZzZ")
+        return
+    
+      # Set awake or sleep
+      if ("wake up" in message.content) or ("get up" in message.content) or ("online" in message.content):
+        isActive = True
+        await client.change_presence(status=discord.Status.online, activity=None)
+        await message.channel.send(random.choice(greetings))
+        return
+      elif ("sleep" in message.content) or ("mute" in message.content) or ("offline" in message.content):
+        isActive = False
+        await client.change_presence(status=discord.Status.idle, activity=None)
+        await message.channel.send(random.choice(goodbyes))
+        return
 
   # Do these only when active
   if isActive:
