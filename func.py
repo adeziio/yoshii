@@ -52,7 +52,7 @@ def get_joke():
 def google_searcher(search):
   headers = {
     'x-rapidapi-host': "google-search3.p.rapidapi.com",
-    'x-rapidapi-key': os.getenv('GOOGLE_SEARCH_TOKEN')
+    'x-rapidapi-key': os.getenv('RAPID_API_KEY')
   }
   try:
     search_image = requests.get("https://google-search3.p.rapidapi.com/api/v1/images/q="+search, headers=headers).json()['image_results'][0]
