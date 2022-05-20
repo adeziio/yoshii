@@ -1,29 +1,10 @@
 import discord
 import os
 import random
-# from keep_alive import keep_alive
+from keep_alive import keep_alive
 from discord.ext import tasks
 from var import greetings, goodbyes, whitelist, peacemaker, insults_keywords, roast_blacklist
 from func import sentiment_analysis, get_insp_quote, get_roasted, photo_searcher_cat, get_joke, google_searcher, get_insults, random_game_status, random_song_status, get_chatbot
-from flask import Flask
-from threading import Thread
-
-app = Flask('')
-
-
-@app.route('/')
-def home():
-    return "Server running..."
-
-
-def run():
-    app.run(host='0.0.0.0', port=8080)
-
-
-def keep_alive():
-    t = Thread(target=run)
-    t.start()
-
 
 client = discord.Client()
 isActive = True
