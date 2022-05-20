@@ -16,7 +16,7 @@
 # Note: 
 ### yoshii constantly read your chat and run a sentiment analysis on you.
 
-# Demo:
-![326035EC-1119-4DF4-A7ED-ED6D3F52BA6B](https://user-images.githubusercontent.com/47045532/169474136-b5908133-e14d-48c5-a196-34b491ee97b2.png)
-![6BAB74B3-022C-480C-A350-95DDC0AAEC88](https://user-images.githubusercontent.com/47045532/169477303-84118661-4b22-498b-8ba4-df1191976d20.png)
-![CF4435DB-E296-40D8-A98B-43C9E94E9EA7](https://user-images.githubusercontent.com/47045532/169477311-87ec944b-78b3-49f9-abfd-f332ed2fae11.png)
+![88ADA708-A277-47CD-B2D3-17FE31091AA4](https://user-images.githubusercontent.com/47045532/169597494-0b594304-6871-4255-b825-24d29b832b44.jpeg)
+![8032B396-9CD4-4429-8EDF-3491971C5D9B](https://user-images.githubusercontent.com/47045532/169597514-f6311fcf-a0d5-4752-b7f0-4e097f548ac0.jpeg)
+![2CFF5343-1C8C-4F3B-80F7-BEF3A09F9D70](https://user-images.githubusercontent.com/47045532/169597534-0775d9ab-d69a-480f-9b6b-0a04811ef213.jpeg)
+![00E2E70A-6957-48B2-954B-8250D8182721](https://user-images.githubusercontent.com/47045532/169597579-cc46685f-1f9c-4eb1-9f70-86f514b665f5.jpeg)
