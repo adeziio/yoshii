@@ -1,7 +1,6 @@
 import discord
 import os
 import random
-from keep_alive import keep_alive
 from discord.ext import tasks
 from var import greetings, goodbyes, whitelist, peacemaker, insults_keywords, roast_blacklist
 from func import sentiment_analysis, get_insp_quote, get_roasted, photo_searcher_cat, get_joke, google_searcher, get_insults, random_game_status, random_song_status, get_chatbot
@@ -105,5 +104,4 @@ async def change_status():
         # Setting `Listening ` status
         await client.change_presence(activity=random_song_status())
 
-keep_alive()
 client.run(os.getenv('YOSHII_TOKEN'))
