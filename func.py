@@ -66,7 +66,7 @@ def google_searcher(search):
     }
     try:
         search_image = requests.get(
-            "https://google-search3.p.rapidapi.com/api/v1/images/q="+search, headers=headers).json()['image_results'][0]
+            "https://google-search3.p.rapidapi.com/api/v1/image/q="+search, headers=headers).json()['result']['image_results'][0]
         image_url = search_image['image']['src']
     except:
         image_url = ""
