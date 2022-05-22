@@ -2,7 +2,6 @@ import discord
 import requests
 import random
 import os
-import re
 from var import game_list, insults_output, greetings
 
 freeflashUrl = "https://freeflash.vercel.app"
