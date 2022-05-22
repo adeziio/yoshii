@@ -2,6 +2,7 @@ import discord
 import requests
 import random
 import os
+import re
 from var import game_list, insults_output, greetings
 
 freeflashUrl = "https://freeflash.vercel.app"
@@ -88,9 +89,12 @@ def sentiment_analysis(text):
 
 
 def get_chatbot(search):
-    response = requests.get(
-        freeflashUrl+"/yoshii?input="+search, headers=headers).json()
-    if response:
-        return response['out']
-    else:
+    try:
+        response = requests.get(
+            freeflashUrl+"/yoshii?input="+search, headers=headers).json()
+        if response:
+            return response['out']
+        else:
+            return random.choice(greetings)
+    except:
         return random.choice(greetings)

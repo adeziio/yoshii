@@ -1,3 +1,4 @@
+import re
 import discord
 import os
 import random
@@ -19,36 +20,26 @@ async def on_ready():
 async def on_message(message):
     global isActive
 
-    # Check status
-    if(message.content.startswith("yoshii")):
-        async with message.channel.typing():
-            if "status" in message.content:
-                await message.channel.send("I'm awake!" if isActive else "I'm asleep...zZzZzZ")
-                return
+    text = message.content
 
-            # Set awake or sleep
-            if ("wake up" in message.content) or ("get up" in message.content) or ("online" in message.content):
-                isActive = True
-                await client.change_presence(status=discord.Status.online, activity=None)
-                await message.channel.send(random.choice(greetings))
-                return
-            elif ("sleep" in message.content) or ("mute" in message.content) or ("offline" in message.content):
-                isActive = False
-                await client.change_presence(status=discord.Status.idle, activity=None)
-                await message.channel.send(random.choice(goodbyes))
-                return
-
-    # Do these only when active
     if isActive:
         # print(message.author.name, message.author.id, type(message.author.id))
         # Prevent infinite loop
         if message.author == client.user:
             return
-        if(message.content.startswith("yoshii")):
-            async with message.channel.typing():
-                text = " ".join(message.content.split(' ')[1:])
 
-                if sentiment_analysis(text) == 'negative':
+        if("yoshii" in text):
+            async with message.channel.typing():
+                text = text.replace("yoshii", "")
+                text = re.sub(' +', ' ', text)
+                text = text.strip()
+
+                if ("go to sleep" in text) or ("offline" in text):
+                    isActive = False
+                    await client.change_presence(status=discord.Status.idle, activity=None)
+                    await message.channel.send(random.choice(goodbyes))
+
+                elif sentiment_analysis(text) == 'negative':
                     await message.channel.send(random.choice(peacemaker))
 
                 # Random inspirational quote
@@ -74,10 +65,6 @@ async def on_message(message):
                 elif ("search up" in text) or ("look up" in text) or ("google" in text) or ("search" in text):
                     await message.channel.send(google_searcher(text))
 
-                # Default greetings
-                elif text.endswith("yoshii"):
-                    await message.channel.send(random.choice(greetings))
-
                 # Default chatbot
                 else:
                     await message.channel.send(get_chatbot(text))
@@ -85,11 +72,24 @@ async def on_message(message):
         # Default roast
         else:
             for word in insults_keywords:
-                if word in message.content.lower():
+                if word in text.lower():
                     ran_num = random.randint(1, 2)
                     if ran_num == 1:
                         if (str(message.author.id) not in whitelist):
-                            await message.channel.send(get_insults(word))
+                            async with message.channel.typing():
+                                await message.channel.send(get_insults(word))
+
+    # Not active
+    else:
+        async with message.channel.typing():
+            if("yoshii" in text):
+                if ("wake up" in text) or ("get up" in text) or ("online" in text):
+                    isActive = True
+                    await client.change_presence(status=discord.Status.online, activity=None)
+                    await message.channel.send(random.choice(greetings))
+                else:
+                    await message.channel.send("I'm sleeping...zzZ...ZzZZ")
+                    await message.channel.send("Wake me up or go away!")
 
 
 @tasks.loop(seconds=900)
