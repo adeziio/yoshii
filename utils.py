@@ -47,7 +47,8 @@ def photo_searcher_cat():
     cat_photo_url = cat_photo_res['url']
     cat_photo_width = cat_photo_res['width']
     cat_photo_height = cat_photo_res['height']
-    cat_fact = requests.get(freeflashUrl+"/cat?mode=fact").json()['fact']
+    cat_fact = requests.get(freeflashUrl+"/cat?mode=fact",
+                            headers=headers).json()['fact']
     embed = discord.Embed(
         title='Fun Fact 🐈',
         description=cat_fact,
@@ -88,11 +89,14 @@ def sentiment_analysis(text):
 
 
 def get_chatbot(search):
+    payload = {
+        "input": search
+    }
     try:
-        response = requests.get(
-            freeflashUrl+"/yoshii?input="+search, headers=headers).json()
+        response = requests.post(
+            freeflashUrl+"/yoshii", json=payload, headers=headers).json()
         if response:
-            return response['out']
+            return response['output']
         else:
             return random.choice(greetings)
     except:
