@@ -20,7 +20,7 @@ async def on_ready():
 async def on_message(message):
     global isActive
 
-    text = message.content
+    text = message.content.lower()
 
     if isActive:
         # print(message.author.name, message.author.id, type(message.author.id))
