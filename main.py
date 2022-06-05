@@ -34,6 +34,11 @@ async def on_message(message):
                 text = re.sub(' +', ' ', text)
                 text = text.strip()
 
+                isBlacklisted = str(message.author.id) in roast_blacklist
+                if isBlacklisted:
+                    await message.channel.send("Don't ever call me again...")
+                    return
+
                 # Sleep
                 if ("go to sleep" in text) or ("offline" in text):
                     isActive = False
