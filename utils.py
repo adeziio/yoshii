@@ -2,7 +2,7 @@ import discord
 import requests
 import random
 import os
-from var import game_list, insults_output, greetings
+from var import game_list, insults_output, greetings, custom_keywords, non_responsive_output
 
 freeflashUrl = "https://freeflash.vercel.app"
 headers = {
@@ -41,7 +41,7 @@ def get_roasted(person):
         return requests.get(freeflashUrl+"/insult?who="+person.capitalize(), headers=headers).text
 
 
-def photo_searcher_cat():
+def get_photo_searcher_cat():
     cat_photo_res = requests.get(
         freeflashUrl+"/cat?mode=image", headers=headers).json()
     cat_photo_url = cat_photo_res['url']
@@ -65,7 +65,7 @@ def get_joke():
     return requests.get(freeflashUrl+"/joke", headers=headers).json()['joke']
 
 
-def google_searcher(search):
+def get_google_searcher(search):
     payload = {
         "mode": "search",
         "search": search
@@ -79,7 +79,7 @@ def google_searcher(search):
     return link
 
 
-def sentiment_analysis(text):
+def get_sentiment_analysis(text):
     response = requests.get(
         freeflashUrl+"/sentiment-analysis?text="+text, headers=headers).json()
     if response['ok']:
@@ -101,3 +101,12 @@ def get_chatbot(search):
             return random.choice(greetings)
     except:
         return random.choice(greetings)
+
+
+def get_custom_response(text, display_name):
+    output = random.choice(non_responsive_output)
+    for key in custom_keywords:
+        if key in text:
+            if key == "my name":
+                output = f'Your name is {display_name}'
+    return output

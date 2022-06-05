@@ -3,8 +3,8 @@ import discord
 import os
 import random
 from discord.ext import tasks
-from var import greetings, goodbyes, whitelist, peacemaker, insults_keywords, roast_blacklist
-from utils import sentiment_analysis, get_insp_quote, get_roasted, photo_searcher_cat, get_joke, google_searcher, get_insults, random_game_status, random_song_status, get_chatbot
+from var import greetings, goodbyes, whitelist, peacemaker, custom_keywords, insults_keywords, roast_blacklist
+from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo_searcher_cat, get_joke, get_google_searcher, get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response
 
 client = discord.Client()
 isActive = True
@@ -34,13 +34,19 @@ async def on_message(message):
                 text = re.sub(' +', ' ', text)
                 text = text.strip()
 
+                # Sleep
                 if ("go to sleep" in text) or ("offline" in text):
                     isActive = False
                     await client.change_presence(status=discord.Status.idle, activity=None)
                     await message.channel.send(random.choice(goodbyes))
 
-                elif sentiment_analysis(text) == 'negative':
+                # Sentiment check
+                elif get_sentiment_analysis(text) == 'negative':
                     await message.channel.send(random.choice(peacemaker))
+
+                # Custom response
+                elif any(item in text for item in custom_keywords):
+                    await message.channel.send(get_custom_response(text, message.author.display_name))
 
                 # Random inspirational quote
                 elif ("inspire" in text) or ("inspirational" in text) or ("inspiration" in text):
@@ -55,7 +61,7 @@ async def on_message(message):
 
                 # Random cat photos
                 elif ("cat" in text) or ("cat photo" in text) or ("cat photos" in text):
-                    await message.channel.send(embed=photo_searcher_cat())
+                    await message.channel.send(embed=get_photo_searcher_cat())
 
                 # Random joke
                 elif ("joke" in text):
@@ -63,7 +69,7 @@ async def on_message(message):
 
                 # Google search
                 elif ("search up" in text) or ("look up" in text) or ("google" in text) or ("search" in text):
-                    await message.channel.send(google_searcher(text))
+                    await message.channel.send(get_google_searcher(text))
 
                 # Default chatbot
                 else:
