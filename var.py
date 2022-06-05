@@ -12,7 +12,8 @@ game_list = [
 ]
 
 custom_keywords = [
-    "my name"
+    "my name",
+    "my real name"
 ]
 
 insults_keywords = [
@@ -83,11 +84,12 @@ non_responsive_output = [
 
 roast_blacklist = [
     "758086695949434911",
-    "316687901884678144",
+    "316687901884678144",  # phuong
     "669660483833561110",
+    "433617079988649985"  # aivi
 ]
 
 whitelist = [
-    "333025781309767684",  # Me
+    "333025781309767684",  # me
     "911751997152194571"  # yumii
 ]

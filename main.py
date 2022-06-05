@@ -24,7 +24,7 @@ async def on_message(message):
 
     if isActive:
         # print(message.author.name, message.author.id, type(message.author.id))
-        # Prevent infinite loop
+
         if message.author == client.user:
             return
 
@@ -35,7 +35,11 @@ async def on_message(message):
                 text = text.strip()
 
                 isBlacklisted = str(message.author.id) in roast_blacklist
+                isWhitelisted = str(message.author.id) in whitelist
+
+                # Do not respond to blacklisted people
                 if isBlacklisted:
+                    await message.channel.send(get_insults(random.choice(insults_keywords)))
                     await message.channel.send("Don't ever call me again...")
                     return
 
@@ -46,13 +50,15 @@ async def on_message(message):
                     await message.channel.send(random.choice(goodbyes))
 
                 # Sentiment check
-                elif get_sentiment_analysis(text) == 'negative':
+                elif get_sentiment_analysis(text) == 'negative' and not isWhitelisted:
                     await message.channel.send(random.choice(peacemaker))
 
                 # Custom response
                 elif any(item in text for item in custom_keywords):
-                    isBlacklisted = str(message.author.id) in roast_blacklist
-                    await message.channel.send(get_custom_response(text, message.author.display_name, isBlacklisted))
+                    if isBlacklisted:
+                        await message.channel.send(get_custom_response(text, random.choice(insults_keywords)))
+                    else:
+                        await message.channel.send(get_custom_response(text, message.author.display_name))
 
                 # Random inspirational quote
                 elif ("inspire" in text) or ("inspirational" in text) or ("inspiration" in text):
@@ -60,7 +66,7 @@ async def on_message(message):
 
                 # Manual roast
                 elif ("roast" in text):
-                    if str(message.author.id) not in roast_blacklist:
+                    if not isBlacklisted:
                         await message.channel.send(get_roasted(" ".join(text.split(' ')[1:])))
                     else:
                         await message.channel.send("nah, ur banned")
@@ -87,7 +93,7 @@ async def on_message(message):
                 if word in text.lower():
                     ran_num = random.randint(1, 2)
                     if ran_num == 1:
-                        if (str(message.author.id) not in whitelist):
+                        if not isWhitelisted:
                             async with message.channel.typing():
                                 await message.channel.send(get_insults(word))
 

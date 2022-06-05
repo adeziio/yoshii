@@ -103,13 +103,13 @@ def get_chatbot(search):
         return random.choice(greetings)
 
 
-def get_custom_response(text, display_name, isBlacklisted):
+def get_custom_response(text, display_name):
     output = random.choice(non_responsive_output)
     for key in custom_keywords:
         if key in text:
             if key == "my name":
-                if isBlacklisted:
-                    output = f'Your name is {random.choice(insults_keywords)}'
-                else:
-                    output = f'Your name is {display_name}'
+                output = f'Your name is {display_name}'
+            elif key == "my real name":
+                output = f'Your real name is {display_name}'
+
     return output
