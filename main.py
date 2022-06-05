@@ -46,7 +46,8 @@ async def on_message(message):
 
                 # Custom response
                 elif any(item in text for item in custom_keywords):
-                    await message.channel.send(get_custom_response(text, message.author.display_name))
+                    isBlacklisted = str(message.author.id) in roast_blacklist
+                    await message.channel.send(get_custom_response(text, message.author.display_name, isBlacklisted))
 
                 # Random inspirational quote
                 elif ("inspire" in text) or ("inspirational" in text) or ("inspiration" in text):

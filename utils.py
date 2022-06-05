@@ -2,7 +2,7 @@ import discord
 import requests
 import random
 import os
-from var import game_list, insults_output, greetings, custom_keywords, non_responsive_output
+from var import game_list, insults_keywords, insults_output, greetings, custom_keywords, non_responsive_output
 
 freeflashUrl = "https://freeflash.vercel.app"
 headers = {
@@ -103,10 +103,13 @@ def get_chatbot(search):
         return random.choice(greetings)
 
 
-def get_custom_response(text, display_name):
+def get_custom_response(text, display_name, isBlacklisted):
     output = random.choice(non_responsive_output)
     for key in custom_keywords:
         if key in text:
             if key == "my name":
-                output = f'Your name is {display_name}'
+                if isBlacklisted:
+                    output = f'Your name is {random.choice(insults_keywords)}'
+                else:
+                    output = f'Your name is {display_name}'
     return output
