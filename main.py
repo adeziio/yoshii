@@ -40,7 +40,6 @@ async def on_message(message):
                 # Do not respond to blacklisted people
                 if isBlacklisted:
                     await message.channel.send(get_insults(random.choice(insults_keywords)))
-                    await message.channel.send("Don't ever call me again...")
                     return
 
                 # Sleep
@@ -69,7 +68,7 @@ async def on_message(message):
                     if not isBlacklisted:
                         await message.channel.send(get_roasted(" ".join(text.split(' ')[1:])))
                     else:
-                        await message.channel.send("nah, ur banned")
+                        await message.channel.send(get_insults(random.choice(insults_keywords)))
 
                 # Random cat photos
                 elif ("cat" in text) or ("cat photo" in text) or ("cat photos" in text):
