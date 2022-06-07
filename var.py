@@ -9,6 +9,7 @@ game_list = [
     "Yoshi's Crafted World",
     "VALORANT",
     "League of Legends",
+    "Garfield Kart"
 ]
 
 custom_keywords = [
