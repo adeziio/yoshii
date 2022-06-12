@@ -28,14 +28,14 @@ async def on_message(message):
         if message.author == client.user:
             return
 
+        isBlacklisted = str(message.author.id) in roast_blacklist
+        isWhitelisted = str(message.author.id) in whitelist
+
         if("yoshii" in text):
             async with message.channel.typing():
                 text = text.replace("yoshii", "")
                 text = re.sub(' +', ' ', text)
                 text = text.strip()
-
-                isBlacklisted = str(message.author.id) in roast_blacklist
-                isWhitelisted = str(message.author.id) in whitelist
 
                 # Do not respond to blacklisted people
                 if isBlacklisted:
