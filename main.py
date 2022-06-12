@@ -111,6 +111,8 @@ async def on_message(message):
 
 @tasks.loop(seconds=900)
 async def change_status():
+    global isActive
+    isActive = True
     ran_num = random.randint(1, 2)
     if ran_num == 1:
         # Setting `Playing ` status
