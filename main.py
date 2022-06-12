@@ -98,8 +98,8 @@ async def on_message(message):
 
     # Not active
     else:
-        async with message.channel.typing():
-            if("yoshii" in text):
+        if("yoshii" in text):
+            async with message.channel.typing():
                 if ("wake up" in text) or ("get up" in text) or ("online" in text):
                     isActive = True
                     await client.change_presence(status=discord.Status.online, activity=None)
