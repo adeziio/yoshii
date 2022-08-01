@@ -13,7 +13,9 @@ isActive = True
 @client.event
 async def on_ready():
     change_status.start()
-    print("Logged in as {0.user}".format(client))
+    print("Name\t: {0.user}".format(client))
+    print("Version\t: 1.0.0")
+    print("Status\t: active")
 
 
 @client.event
