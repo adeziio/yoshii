@@ -1,3 +1,3 @@
 #!/bin/bash
 pip install -r requirements.txt
-pyinstaller -F yoshii.py
+pyinstaller -F --noconsole yoshii.py
