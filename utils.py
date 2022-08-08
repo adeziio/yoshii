@@ -137,15 +137,16 @@ def select_karma_point(userId, serverId):
     try:
         response = requests.post(freeflashUrl+"/yoshii-select-karma-point",
                                  json=payload, headers=headers).json()
+        karma_point = response['karma_point']
         if response:
             karma = ""
-            if (response['karma_point'] >= 10):
+            if (karma_point > 10):
                 karma = "Your karma is great 😀"
-            elif (response['karma_point'] >= 5):
+            elif (karma_point >= 5 and karma_point <= 10):
                 karma = "Your karma is good 🙂"
-            elif (response['karma_point'] <= -5):
+            elif (karma_point >= -10 and karma_point <= -5):
                 karma = "Your karma is bad 😔"
-            elif (response['karma_point'] <= -10):
+            elif (karma_point < -10):
                 karma = "Your karma is terrible 😩"
             else:
                 karma = "Your karma is fine 🙂"
