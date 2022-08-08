@@ -115,15 +115,38 @@ def get_custom_response(text, display_name):
     return output
 
 
-def update_karma(userId, serverId, sentiment):
+def update_karma_point(userId, serverId, sentiment):
     payload = {
         "userId": userId,
         "serverId": serverId,
         "sentiment": sentiment
     }
     try:
-        requests.post(freeflashUrl+"/yoshii-karma-update",
+        requests.post(freeflashUrl+"/yoshii-update-karma-point",
                       json=payload, headers=headers).json()
     except:
         return None
     return None
+
+
+def select_karma_point(userId, serverId):
+    payload = {
+        "userId": userId,
+        "serverId": serverId
+    }
+    try:
+        response = requests.post(freeflashUrl+"/yoshii-select-karma-point",
+                                 json=payload, headers=headers).json()
+        if response:
+            karma = ""
+            if (response['karma_point'] > 10):
+                karma = "Your karma is great 😀"
+            elif (response['karma_point'] < -10):
+                karma = "Your karma is terrible 😔"
+            else:
+                karma = "Your karma is fine 🙂"
+            return karma
+        else:
+            return "I'm not sure..."
+    except:
+        return "I'm not sure..."

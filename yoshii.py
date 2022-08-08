@@ -5,7 +5,7 @@ import random
 from discord.ext import tasks
 from var import greetings, goodbyes, whitelist, peacemaker, custom_keywords, insults_keywords, roast_blacklist
 from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo_searcher_cat, get_joke, get_google_searcher, \
-    get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma
+    get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma_point, select_karma_point
 
 client = discord.Client()
 isActive = True
@@ -15,7 +15,7 @@ isActive = True
 async def on_ready():
     change_status.start()
     print("Name\t: {0.user}".format(client))
-    print("Version\t: 1.0.0")
+    print("Version\t: 2.0.0")
     print("Status\t: active")
 
 
@@ -28,8 +28,8 @@ async def on_message(message):
     text = message.content.lower()
 
     try:
-        update_karma(message.author.id, message.guild.id,
-                     get_sentiment_analysis(text))
+        update_karma_point(message.author.id, message.guild.id,
+                           get_sentiment_analysis(text))
     except Exception:
         None
 
@@ -56,6 +56,10 @@ async def on_message(message):
                     isActive = False
                     await client.change_presence(status=discord.Status.idle, activity=None)
                     await message.channel.send(random.choice(goodbyes))
+
+                # Check karma
+                elif ("my karma" in text):
+                    await message.channel.send(select_karma_point(message.author.id, message.guild.id))
 
                 # Sentiment check
                 elif get_sentiment_analysis(text) == 'negative' and not isWhitelisted:
