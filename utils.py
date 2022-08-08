@@ -139,10 +139,14 @@ def select_karma_point(userId, serverId):
                                  json=payload, headers=headers).json()
         if response:
             karma = ""
-            if (response['karma_point'] > 10):
+            if (response['karma_point'] >= 10):
                 karma = "Your karma is great 😀"
-            elif (response['karma_point'] < -10):
-                karma = "Your karma is terrible 😔"
+            elif (response['karma_point'] >= 5):
+                karma = "Your karma is good 🙂"
+            elif (response['karma_point'] <= -5):
+                karma = "Your karma is bad 😔"
+            elif (response['karma_point'] <= -10):
+                karma = "Your karma is terrible 😩"
             else:
                 karma = "Your karma is fine 🙂"
             return karma
