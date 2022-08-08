@@ -4,7 +4,8 @@ import os
 import random
 from discord.ext import tasks
 from var import greetings, goodbyes, whitelist, peacemaker, custom_keywords, insults_keywords, roast_blacklist
-from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo_searcher_cat, get_joke, get_google_searcher, get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response
+from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo_searcher_cat, get_joke, get_google_searcher, \
+    get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma
 
 client = discord.Client()
 isActive = True
@@ -20,13 +21,19 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    # print(message.author.id, message.author, message.guild.id,
+    #       message.guild.name, message.author.display_name)
     global isActive
 
     text = message.content.lower()
 
-    if isActive:
-        # print(message.author.name, message.author.id, type(message.author.id))
+    try:
+        update_karma(message.author.id, message.guild.id,
+                     get_sentiment_analysis(text))
+    except Exception:
+        None
 
+    if isActive:
         if message.author == client.user:
             return
 

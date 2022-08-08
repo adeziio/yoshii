@@ -2,7 +2,7 @@ import discord
 import requests
 import random
 import os
-from var import game_list, insults_keywords, insults_output, greetings, custom_keywords, non_responsive_output
+from var import game_list, insults_output, greetings, custom_keywords, non_responsive_output
 
 freeflashUrl = "https://freeflash.vercel.app"
 headers = {
@@ -113,3 +113,17 @@ def get_custom_response(text, display_name):
                 output = f'Your real name is {display_name}'
 
     return output
+
+
+def update_karma(userId, serverId, sentiment):
+    payload = {
+        "userId": userId,
+        "serverId": serverId,
+        "sentiment": sentiment
+    }
+    try:
+        requests.post(freeflashUrl+"/yoshii-karma-update",
+                      json=payload, headers=headers).json()
+    except:
+        return None
+    return None
