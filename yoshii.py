@@ -64,7 +64,7 @@ async def on_message(message):
                     elif ("your" in text or "ur" in text):
                         await message.channel.send(get_karma(client.user.id, message.guild.id, "My"))
                     else:
-                        await message.channel.send("You can only ask about your own karma...or mine")
+                        await message.channel.send("You can only check your own karma...or mine")
 
                 # Sentiment check
                 elif get_sentiment_analysis(text) == 'negative' and not isWhitelisted:
