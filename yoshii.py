@@ -5,7 +5,7 @@ import random
 from discord.ext import tasks
 from var import greetings, goodbyes, whitelist, peacemaker, custom_keywords, insults_keywords, roast_blacklist
 from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo_searcher_cat, get_joke, get_google_searcher, \
-    get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma_point, select_karma_point
+    get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma_point, get_karma
 
 client = discord.Client()
 isActive = True
@@ -46,10 +46,10 @@ async def on_message(message):
                 text = re.sub(' +', ' ', text)
                 text = text.strip()
 
-                # Do not respond to blacklisted people
-                if isBlacklisted:
-                    await message.channel.send(get_insults(random.choice(insults_keywords)))
-                    return
+                # # Do not respond to blacklisted people
+                # if isBlacklisted:
+                #     await message.channel.send(get_insults(random.choice(insults_keywords)))
+                #     return
 
                 # Sleep
                 if ("go to sleep" in text) or ("offline" in text):
@@ -58,8 +58,13 @@ async def on_message(message):
                     await message.channel.send(random.choice(goodbyes))
 
                 # Check karma
-                elif ("my karma" in text):
-                    await message.channel.send(select_karma_point(message.author.id, message.guild.id))
+                elif ("karma" in text):
+                    if ("my" in text):
+                        await message.channel.send(get_karma(message.author.id, message.guild.id, "Your"))
+                    elif ("your" in text or "ur" in text):
+                        await message.channel.send(get_karma(client.user.id, message.guild.id, "My"))
+                    else:
+                        await message.channel.send("You can only ask about your own karma...or mine")
 
                 # Sentiment check
                 elif get_sentiment_analysis(text) == 'negative' and not isWhitelisted:

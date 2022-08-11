@@ -129,11 +129,12 @@ def update_karma_point(userId, serverId, sentiment):
     return None
 
 
-def select_karma_point(userId, serverId):
+def get_karma(userId, serverId, pronoun):
     payload = {
         "userId": userId,
         "serverId": serverId
     }
+
     try:
         response = requests.post(freeflashUrl+"/yoshii-select-karma-point",
                                  json=payload, headers=headers).json()
@@ -141,15 +142,15 @@ def select_karma_point(userId, serverId):
         if response:
             karma = ""
             if (karma_point > 10):
-                karma = "Your karma is great 😀"
+                karma = f"{pronoun} karma is great 😀"
             elif (karma_point >= 5 and karma_point <= 10):
-                karma = "Your karma is good 🙂"
+                karma = f"{pronoun} karma is good 🙂"
             elif (karma_point >= -10 and karma_point <= -5):
-                karma = "Your karma is bad 😔"
+                karma = f"{pronoun} karma is bad 😔"
             elif (karma_point < -10):
-                karma = "Your karma is terrible 😩"
+                karma = f"{pronoun} karma is terrible 😩"
             else:
-                karma = "Your karma is fine 🙂"
+                karma = f"{pronoun} karma is fine 🙂"
             return karma
         else:
             return "I'm not sure..."
