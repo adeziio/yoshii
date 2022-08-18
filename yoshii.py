@@ -5,7 +5,7 @@ import random
 from discord.ext import tasks
 from var import greetings, goodbyes, whitelist, peacemaker, custom_keywords, insults_keywords, roast_blacklist
 from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo_searcher_cat, get_joke, get_google_searcher, \
-    get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma_point, get_karma
+    get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma_point, get_karma, get_karma_point
 
 client = discord.Client()
 isActive = True
@@ -60,9 +60,15 @@ async def on_message(message):
                 # Check karma
                 elif ("karma" in text):
                     if ("my" in text):
-                        await message.channel.send(get_karma(message.author.id, message.guild.id, "Your"))
+                        if ("point" in text):
+                            await message.channel.send(get_karma_point(message.author.id, message.guild.id))
+                        else:
+                            await message.channel.send(get_karma(message.author.id, message.guild.id, "Your"))
                     elif ("your" in text or "ur" in text):
-                        await message.channel.send(get_karma(client.user.id, message.guild.id, "My"))
+                        if ("point" in text):
+                            await message.channel.send(get_karma_point(message.author.id, message.guild.id))
+                        else:
+                            await message.channel.send(get_karma(client.user.id, message.guild.id, "My"))
                     else:
                         await message.channel.send("You can only check your own karma...or mine")
 

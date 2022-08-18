@@ -156,3 +156,19 @@ def get_karma(userId, serverId, pronoun):
             return "I'm not sure..."
     except:
         return "I'm not sure..."
+
+
+def get_karma_point(userId, serverId):
+    payload = {
+        "userId": userId,
+        "serverId": serverId
+    }
+
+    try:
+        response = requests.post(freeflashUrl+"/yoshii-select-karma-point",
+                                 json=payload, headers=headers).json()
+        karma_point = response['karma_point']
+        if response:
+            return karma_point
+    except:
+        return "I'm not sure..."
