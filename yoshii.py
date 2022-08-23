@@ -3,7 +3,7 @@ import discord
 import os
 import random
 from discord.ext import tasks
-from var import greetings, goodbyes, whitelist, peacemaker, custom_keywords, insults_keywords, roast_blacklist
+from var import greetings, goodbyes, whitelist, peacemaker, custom_keywords, insults_keywords
 from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo_searcher_cat, get_joke, get_google_searcher, \
     get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma_point, get_karma, get_karma_point
 
@@ -37,7 +37,6 @@ async def on_message(message):
         if message.author == client.user:
             return
 
-        isBlacklisted = str(message.author.id) in roast_blacklist
         isWhitelisted = str(message.author.id) in whitelist
 
         if("yoshii" in text):
@@ -45,11 +44,6 @@ async def on_message(message):
                 text = text.replace("yoshii", "")
                 text = re.sub(' +', ' ', text)
                 text = text.strip()
-
-                # # Do not respond to blacklisted people
-                # if isBlacklisted:
-                #     await message.channel.send(get_insults(random.choice(insults_keywords)))
-                #     return
 
                 # Sleep
                 if ("go to sleep" in text) or ("offline" in text):
@@ -78,10 +72,7 @@ async def on_message(message):
 
                 # Custom response
                 elif any(item in text for item in custom_keywords):
-                    if isBlacklisted:
-                        await message.channel.send(get_custom_response(text, random.choice(insults_keywords)))
-                    else:
-                        await message.channel.send(get_custom_response(text, message.author.display_name))
+                    await message.channel.send(get_custom_response(text, message.author.display_name))
 
                 # Random inspirational quote
                 elif ("inspire" in text) or ("inspirational" in text) or ("inspiration" in text):
@@ -89,10 +80,7 @@ async def on_message(message):
 
                 # Manual roast
                 elif ("roast" in text):
-                    if not isBlacklisted:
-                        await message.channel.send(get_roasted(" ".join(text.split(' ')[1:])))
-                    else:
-                        await message.channel.send(get_insults(random.choice(insults_keywords)))
+                    await message.channel.send(get_roasted(" ".join(text.split(' ')[1:])))
 
                 # Random cat photos
                 elif ("cat" in text) or ("cat photo" in text) or ("cat photos" in text):
