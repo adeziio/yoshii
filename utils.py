@@ -80,11 +80,11 @@ def get_google_searcher(search):
 
 
 def get_sentiment_analysis(text):
-    response = requests.get(
-        freeflashUrl+"/sentiment-analysis?text="+text, headers=headers).json()
-    if response['ok']:
+    try:
+        response = requests.get(
+            freeflashUrl+"/sentiment-analysis?text="+text, headers=headers).json()
         return int(response['neg']) > int(response['pos'])
-    else:
+    except Exception:
         return ""
 
 
