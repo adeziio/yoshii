@@ -1,5 +1,5 @@
 # yoshii
-#### yoshii is a discord bot that likes to roast you :)
+#### yoshii is an AI chatbot that likes to roast people
 
 # List of sample commands:
 ### yoshii
