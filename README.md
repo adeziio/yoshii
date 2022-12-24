@@ -1,7 +1,7 @@
 # yoshii
 #### yoshii is an AI chatbot that likes to roast people
 
-# List of sample commands:
+# General commands:
 ### yoshii
 ### yoshii status
 ### yoshii wake up
@@ -13,8 +13,14 @@
 ### yoshii search up how to eat a banana
 ### yoshii ...(say anything)...
 
+# Karma system commands:
+### yoshii how is my karma
+### yoshii what is my karma point?
+### yoshii what is the server karma ranking?
+
 # Note: 
 ### yoshii constantly read your chat and run a sentiment analysis on you.
+### your karma increase/decrease based on the sentiment of your messages.
 
 ![88ADA708-A277-47CD-B2D3-17FE31091AA4](https://user-images.githubusercontent.com/47045532/169597494-0b594304-6871-4255-b825-24d29b832b44.jpeg)
 ![21455E81-8C3C-4703-B0AD-DBE334DC796F](https://user-images.githubusercontent.com/47045532/169709790-31efa83d-673a-4b12-b43a-cd65037ccd38.jpeg)
