@@ -67,32 +67,26 @@ async def on_message(message):
                     elif ("ranking" in text or "leaderboard" in text):
                         karma_ranking = get_karma_ranking(message.guild.id)
                         serverName = await client.fetch_guild(int(message.guild.id))
-                        title = f"🎄🎅🎄 Karma Leaderboard 🎄🎅🎄"
-                        description = f"{serverName}"
+                        title = f""
+                        description = f""
 
-                        colour = discord.Colour.blue()
+                        colour = discord.Colour.orange()
                         embed = discord.Embed(
                             title=title,
                             description=description,
                             colour=colour,
                         )
-                        rank = ""
-                        username = ""
-                        point = ""
+                        row = ""
                         for i in range(len(karma_ranking)):
                             user = await client.fetch_user(int(karma_ranking[i][0]))
                             user_name = user.name
                             karma_point = karma_ranking[i][2]
-                            rank += f"{i+1}" + "\n"
-                            username += f"{user_name}" + "\n"
-                            point += f"{karma_point}" + "\n"
-                        embed.add_field(name='Rank', value=rank, inline=True)
-                        embed.add_field(name='Username',
-                                        value=username, inline=True)
-                        embed.add_field(name='Point', value=point, inline=True)
+                            row += f"{user_name} - {karma_point}" + "\n"
+                        embed.add_field(name="🎁🎄🎅🎄🎁 Leaderboard 🎁🎄🎅🎄🎁",
+                                        value=row, inline=True)
 
                         embed.set_footer(
-                            text=f"\n\n")
+                            text=f"")
                         await message.channel.send(embed=embed)
                     else:
                         await message.channel.send("I'm not sure what you're asking.")
