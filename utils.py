@@ -179,3 +179,17 @@ def get_karma_point(userId, serverId):
             return karma_point
     except:
         return "I'm not sure..."
+
+
+def get_karma_ranking(serverId):
+    payload = {
+        "serverId": serverId
+    }
+
+    try:
+        response = requests.post(freeflashUrl+"/yoshii-select-karma-ranking",
+                                 json=payload, headers=headers).json()
+        if response:
+            return response['karma_ranking']
+    except:
+        return []

@@ -5,7 +5,8 @@ import random
 from discord.ext import tasks
 from var import greetings, goodbyes, whitelist, peacemaker, custom_keywords, insults_keywords
 from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo_searcher_cat, get_joke, get_google_searcher, \
-    get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma_point, get_karma, get_karma_point
+    get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma_point, get_karma, get_karma_point, \
+    get_karma_ranking
 
 client = discord.Client()
 isActive = True
@@ -60,11 +61,41 @@ async def on_message(message):
                             await message.channel.send(get_karma(message.author.id, message.guild.id, "Your"))
                     elif ("your" in text or "ur" in text):
                         if ("point" in text):
-                            await message.channel.send(get_karma_point(message.author.id, message.guild.id))
+                            await message.channel.send(get_karma_point(client.user.id, message.guild.id))
                         else:
                             await message.channel.send(get_karma(client.user.id, message.guild.id, "My"))
+                    elif ("ranking" in text or "leaderboard" in text):
+                        karma_ranking = get_karma_ranking(message.guild.id)
+                        serverName = await client.fetch_guild(int(message.guild.id))
+                        title = f"🎄🎅🎄 Karma Leaderboard 🎄🎅🎄"
+                        description = f"{serverName}"
+
+                        colour = discord.Colour.blue()
+                        embed = discord.Embed(
+                            title=title,
+                            description=description,
+                            colour=colour,
+                        )
+                        rank = ""
+                        username = ""
+                        point = ""
+                        for i in range(len(karma_ranking)):
+                            user = await client.fetch_user(int(karma_ranking[i][0]))
+                            user_name = user.name
+                            karma_point = karma_ranking[i][2]
+                            rank += f"{i+1}" + "\n"
+                            username += f"{user_name}" + "\n"
+                            point += f"{karma_point}" + "\n"
+                        embed.add_field(name='Rank', value=rank, inline=True)
+                        embed.add_field(name='Username',
+                                        value=username, inline=True)
+                        embed.add_field(name='Point', value=point, inline=True)
+
+                        embed.set_footer(
+                            text=f"\n\n")
+                        await message.channel.send(embed=embed)
                     else:
-                        await message.channel.send("You can only check your own karma...or mine")
+                        await message.channel.send("I'm not sure what you're asking.")
 
                 # Sentiment check
                 elif get_sentiment_analysis(text) == 'negative' and not isWhitelisted:
