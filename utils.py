@@ -150,14 +150,14 @@ def get_karma(userId, serverId, pronoun):
             karma = ""
             if (karma_point > 10):
                 karma = f"{pronoun} karma is great 😀"
-            elif (karma_point >= 5 and karma_point <= 10):
+            elif (karma_point > 0):
                 karma = f"{pronoun} karma is good 🙂"
-            elif (karma_point >= -10 and karma_point <= -5):
+            elif (karma_point < 0):
                 karma = f"{pronoun} karma is bad 😔"
             elif (karma_point < -10):
                 karma = f"{pronoun} karma is terrible 😩"
             else:
-                karma = f"{pronoun} karma is fine 🙂"
+                karma = f"{pronoun} karma is normal 🙂"
             return karma
         else:
             return "I'm not sure..."

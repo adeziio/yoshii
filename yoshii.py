@@ -53,7 +53,7 @@ async def on_message(message):
                     await message.channel.send(random.choice(goodbyes))
 
                 # Check karma
-                elif ("karma" in text):
+                elif ("karma" in text or "naughty or nice" in text):
                     if ("my" in text):
                         if ("point" in text):
                             await message.channel.send(get_karma_point(message.author.id, message.guild.id))
@@ -64,7 +64,7 @@ async def on_message(message):
                             await message.channel.send(get_karma_point(client.user.id, message.guild.id))
                         else:
                             await message.channel.send(get_karma(client.user.id, message.guild.id, "My"))
-                    elif ("ranking" in text or "leaderboard" in text):
+                    elif ("ranking" in text or "leaderboard" in text or "naughty or nice" in text):
                         karma_ranking = get_karma_ranking(message.guild.id)
                         serverName = await client.fetch_guild(int(message.guild.id))
                         title = f""
@@ -81,8 +81,15 @@ async def on_message(message):
                             user = await client.fetch_user(int(karma_ranking[i][0]))
                             user_name = user.name
                             karma_point = karma_ranking[i][2]
-                            row += f"{user_name} - {karma_point}" + "\n"
-                        embed.add_field(name="🎁🎄🎅🎄🎁 Leaderboard 🎁🎄🎅🎄🎁",
+                            emoji = "😐"
+                            if (karma_point > 0):
+                                emoji = "😇"
+                            elif (karma_point < 0):
+                                emoji = "💀"
+                            else:
+                                emoji = "😐"
+                            row += f"{emoji} {user_name}  ({karma_point})" + "\n"
+                        embed.add_field(name="🎄🎅 Yoshii's Naughty or Nice List 🎅🎄",
                                         value=row, inline=True)
 
                         embed.set_footer(
