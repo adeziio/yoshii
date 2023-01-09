@@ -95,7 +95,7 @@ async def on_message(message):
                                             value=row, inline=True)
 
                             embed.set_footer(
-                                text=f"📅 {int(karma_ranking[i][2])}")
+                                text=f"📅 {int(karma_ranking[i][2])} 📅")
                             await message.channel.send(embed=embed)
                         else:
                             await message.channel.send("Karma Ranking does not exist.")
