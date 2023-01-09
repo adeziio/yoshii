@@ -65,36 +65,40 @@ async def on_message(message):
                         else:
                             await message.channel.send(get_karma(client.user.id, message.guild.id, "My"))
                     elif ("ranking" in text or "leaderboard" in text or "naughty or nice" in text):
-                        karma_ranking = get_karma_ranking(message.guild.id)
-                        serverName = await client.fetch_guild(int(message.guild.id))
-                        title = f""
-                        description = f""
+                        karma_ranking = get_karma_ranking(
+                            message.guild.id, text)
+                        if (len(karma_ranking) > 0):
+                            serverName = await client.fetch_guild(int(message.guild.id))
+                            title = f""
+                            description = f""
 
-                        colour = discord.Colour.orange()
-                        embed = discord.Embed(
-                            title=title,
-                            description=description,
-                            colour=colour,
-                        )
-                        row = ""
-                        for i in range(len(karma_ranking)):
-                            user = await client.fetch_user(int(karma_ranking[i][0]))
-                            user_name = user.name
-                            karma_point = karma_ranking[i][2]
-                            emoji = "😐"
-                            if (karma_point > 0):
-                                emoji = "😇"
-                            elif (karma_point < 0):
-                                emoji = "💀"
-                            else:
+                            colour = discord.Colour.orange()
+                            embed = discord.Embed(
+                                title=title,
+                                description=description,
+                                colour=colour,
+                            )
+                            row = ""
+                            for i in range(len(karma_ranking)):
+                                user = await client.fetch_user(int(karma_ranking[i][0]))
+                                user_name = user.name
+                                karma_point = int(karma_ranking[i][2])
                                 emoji = "😐"
-                            row += f"{emoji} {user_name}  ({karma_point})" + "\n"
-                        embed.add_field(name="🎄🎅 Yoshii's Naughty or Nice List 🎅🎄",
-                                        value=row, inline=True)
+                                if (karma_point > 0):
+                                    emoji = "😇"
+                                elif (karma_point < 0):
+                                    emoji = "💀"
+                                else:
+                                    emoji = "😐"
+                                row += f"{emoji} {user_name}  ({karma_point})" + "\n"
+                            embed.add_field(name="🎄🎅 Yoshii's Naughty or Nice List 🎅🎄",
+                                            value=row, inline=True)
 
-                        embed.set_footer(
-                            text=f"")
-                        await message.channel.send(embed=embed)
+                            embed.set_footer(
+                                text=f"")
+                            await message.channel.send(embed=embed)
+                        else:
+                            await message.channel.send("Karma Ranking does not exist.")
                     else:
                         await message.channel.send("I'm not sure what you're asking.")
 

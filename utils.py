@@ -2,9 +2,10 @@ import discord
 import requests
 import random
 import os
+import re
 from var import game_list, insults_output, greetings, custom_keywords, non_responsive_output
 
-freeflashUrl = "https://freeflash.vercel.app"
+freeflashUrl = "http://127.0.0.1:5000"
 headers = {
     "FREEFLASH_API_KEY": os.getenv('FREEFLASH_API_KEY')
 }
@@ -181,9 +182,16 @@ def get_karma_point(userId, serverId):
         return "I'm not sure..."
 
 
-def get_karma_ranking(serverId):
+def get_karma_ranking(serverId, text):
+    k_year = ""
+    try:
+        k_year = str(re.search(r"(\d{4})", text).group(1))
+    except Exception:
+        pass
+
     payload = {
-        "serverId": serverId
+        "serverId": serverId,
+        "karmaYear": k_year
     }
 
     try:
