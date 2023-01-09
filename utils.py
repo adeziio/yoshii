@@ -5,7 +5,7 @@ import os
 import re
 from var import game_list, insults_output, greetings, custom_keywords, non_responsive_output
 
-freeflashUrl = "http://127.0.0.1:5000"
+freeflashUrl = "https://freeflash.vercel.app"
 headers = {
     "FREEFLASH_API_KEY": os.getenv('FREEFLASH_API_KEY')
 }
