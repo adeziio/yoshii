@@ -30,8 +30,7 @@ async def on_message(message):
     text = message.content.lower()
 
     try:
-        if (message.author != client.user):
-            update_karma_point(message.author.id, message.guild.id, get_sentiment_analysis(text))
+        update_karma_point(message.author.id, message.guild.id, get_sentiment_analysis(text))
     except Exception:
         None
 
