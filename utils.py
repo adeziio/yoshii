@@ -92,9 +92,9 @@ def get_sentiment_analysis(text):
         elif (pos < neg):
             return "negative"
         else:
-            return ""
+            return "neutral"
     except Exception:
-        return ""
+        return "neutral"
 
 
 def get_chatbot(search):
@@ -184,15 +184,15 @@ def get_karma_point(userId, serverId):
 
 
 def get_karma_ranking(serverId, text):
-    k_year = ""
+    karmaYear = ""
     try:
-        k_year = str(re.search(r"(\d{4})", text).group(1))
+        karmaYear = str(re.search(r"(\d{4})", text).group(1))
     except Exception:
         pass
 
     payload = {
         "serverId": serverId,
-        "year": k_year
+        "karmaYear": karmaYear
     }
 
     try:

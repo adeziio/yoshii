@@ -82,9 +82,9 @@ async def on_message(message):
                                 )
                                 row = ""
                                 for i in range(len(karma_ranking)):
-                                    user = await client.fetch_user(int(karma_ranking[i]['user_id']))
+                                    user = await client.fetch_user(int(karma_ranking[i]['id'].split('-')[0]))
                                     user_name = user.name
-                                    karma_point = int(karma_ranking[i]['point'])
+                                    karma_point = int(karma_ranking[i]['karma_point'])
                                     emoji = "😐"
                                     if (karma_point > 0):
                                         emoji = "😇"
@@ -97,7 +97,7 @@ async def on_message(message):
                                                 value=row, inline=True)
 
                                 embed.set_footer(
-                                    text=f"📅 {int(karma_ranking[i]['year'])} 📅")
+                                    text=f"📅 {int(karma_ranking[i]['karma_year'])} 📅")
                                 await message.channel.send(embed=embed)
                             else:
                                 await message.channel.send("Karma Ranking does not exist.")
