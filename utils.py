@@ -6,6 +6,7 @@ import re
 from var import game_list, insults_output, greetings, custom_keywords, non_responsive_output
 
 freeflashUrl = "https://freeflash.vercel.app"
+
 headers = {
     "FREEFLASH_API_KEY": os.getenv('FREEFLASH_API_KEY')
 }
@@ -130,7 +131,7 @@ def update_karma_point(userId, serverId, sentiment):
         "sentiment": sentiment
     }
     try:
-        requests.post(freeflashUrl+"/yoshii-update-karma-point",
+        requests.post(freeflashUrl+"/yoshii-karma-add-point",
                       json=payload, headers=headers).json()
     except:
         return None
@@ -144,9 +145,9 @@ def get_karma(userId, serverId, pronoun):
     }
 
     try:
-        response = requests.post(freeflashUrl+"/yoshii-select-karma-point",
+        response = requests.post(freeflashUrl+"/yoshii-karma-get-point",
                                  json=payload, headers=headers).json()
-        karma_point = response['karma_point']
+        karma_point = response['point']
         if response:
             karma = ""
             if (karma_point > 10):
@@ -173,9 +174,9 @@ def get_karma_point(userId, serverId):
     }
 
     try:
-        response = requests.post(freeflashUrl+"/yoshii-select-karma-point",
+        response = requests.post(freeflashUrl+"/yoshii-karma-get-point",
                                  json=payload, headers=headers).json()
-        karma_point = response['karma_point']
+        karma_point = response['point']
         if response:
             return karma_point
     except:
@@ -191,13 +192,13 @@ def get_karma_ranking(serverId, text):
 
     payload = {
         "serverId": serverId,
-        "karmaYear": k_year
+        "year": k_year
     }
 
     try:
-        response = requests.post(freeflashUrl+"/yoshii-select-karma-ranking",
+        response = requests.post(freeflashUrl+"/yoshii-karma-get-ranking",
                                  json=payload, headers=headers).json()
         if response:
-            return response['karma_ranking']
+            return response['ranking']
     except:
         return []

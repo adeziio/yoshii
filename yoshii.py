@@ -2,6 +2,7 @@ import re
 import discord
 import os
 import random
+from datetime import date
 from discord.ext import tasks
 from var import greetings, goodbyes, whitelist, peacemaker, custom_keywords, insults_keywords
 from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo_searcher_cat, get_joke, get_google_searcher, \
@@ -29,8 +30,8 @@ async def on_message(message):
     text = message.content.lower()
 
     try:
-        update_karma_point(message.author.id, message.guild.id,
-                           get_sentiment_analysis(text))
+        if (message.author != client.user):
+            update_karma_point(message.author.id, message.guild.id, get_sentiment_analysis(text))
     except Exception:
         None
 
@@ -54,53 +55,56 @@ async def on_message(message):
 
                 # Check karma
                 elif ("karma" in text or "naughty or nice" in text):
-                    if ("my" in text):
-                        if ("point" in text):
-                            await message.channel.send(get_karma_point(message.author.id, message.guild.id))
-                        else:
-                            await message.channel.send(get_karma(message.author.id, message.guild.id, "Your"))
-                    elif ("your" in text or "ur" in text):
-                        if ("point" in text):
-                            await message.channel.send(get_karma_point(client.user.id, message.guild.id))
-                        else:
-                            await message.channel.send(get_karma(client.user.id, message.guild.id, "My"))
-                    elif ("ranking" in text or "leaderboard" in text or "naughty or nice" in text):
-                        karma_ranking = get_karma_ranking(
-                            message.guild.id, text)
-                        if (len(karma_ranking) > 0):
-                            serverName = await client.fetch_guild(int(message.guild.id))
-                            title = f""
-                            description = f""
+                    if (str(date.today().month == 12)):
+                        if ("my" in text):
+                            if ("point" in text):
+                                await message.channel.send(get_karma_point(message.author.id, message.guild.id))
+                            else:
+                                await message.channel.send(get_karma(message.author.id, message.guild.id, "Your"))
+                        elif ("your" in text or "ur" in text):
+                            if ("point" in text):
+                                await message.channel.send(get_karma_point(client.user.id, message.guild.id))
+                            else:
+                                await message.channel.send(get_karma(client.user.id, message.guild.id, "My"))
+                        elif ("ranking" in text or "leaderboard" in text or "naughty or nice" in text):
+                            karma_ranking = get_karma_ranking(
+                                message.guild.id, text)
+                            if (len(karma_ranking) > 0):
+                                serverName = await client.fetch_guild(int(message.guild.id))
+                                title = f""
+                                description = f""
 
-                            colour = discord.Colour.orange()
-                            embed = discord.Embed(
-                                title=title,
-                                description=description,
-                                colour=colour,
-                            )
-                            row = ""
-                            for i in range(len(karma_ranking)):
-                                user = await client.fetch_user(int(karma_ranking[i][0]))
-                                user_name = user.name
-                                karma_point = int(karma_ranking[i][3])
-                                emoji = "😐"
-                                if (karma_point > 0):
-                                    emoji = "😇"
-                                elif (karma_point < 0):
-                                    emoji = "💀"
-                                else:
+                                colour = discord.Colour.orange()
+                                embed = discord.Embed(
+                                    title=title,
+                                    description=description,
+                                    colour=colour,
+                                )
+                                row = ""
+                                for i in range(len(karma_ranking)):
+                                    user = await client.fetch_user(int(karma_ranking[i]['user_id']))
+                                    user_name = user.name
+                                    karma_point = int(karma_ranking[i]['point'])
                                     emoji = "😐"
-                                row += f"{emoji} {user_name}  ({karma_point})" + "\n"
-                            embed.add_field(name="🎄🎅 Yoshii's Naughty or Nice List 🎅🎄",
-                                            value=row, inline=True)
+                                    if (karma_point > 0):
+                                        emoji = "😇"
+                                    elif (karma_point < 0):
+                                        emoji = "💀"
+                                    else:
+                                        emoji = "😐"
+                                    row += f"{emoji} {user_name}  ({karma_point})" + "\n"
+                                embed.add_field(name="🎄🎅 Yoshii's Naughty or Nice List 🎅🎄",
+                                                value=row, inline=True)
 
-                            embed.set_footer(
-                                text=f"📅 {int(karma_ranking[i][2])} 📅")
-                            await message.channel.send(embed=embed)
+                                embed.set_footer(
+                                    text=f"📅 {int(karma_ranking[i]['year'])} 📅")
+                                await message.channel.send(embed=embed)
+                            else:
+                                await message.channel.send("Karma Ranking does not exist.")
                         else:
-                            await message.channel.send("Karma Ranking does not exist.")
+                            await message.channel.send("I'm not sure what you're asking.")
                     else:
-                        await message.channel.send("I'm not sure what you're asking.")
+                        await message.channel.send("The Karma Ranking System is only available during Christmas season!")
 
                 # Sentiment check
                 elif get_sentiment_analysis(text) == 'negative' and not isWhitelisted:
