@@ -53,8 +53,8 @@ async def on_message(message):
                     await message.channel.send(random.choice(goodbyes))
 
                 # Check karma
-                elif ("karma" in text or "naughty or nice" in text):
-                    if (str(date.today().month == 12)):
+                elif ("karma" in text or "naughty list" in text):
+                    if (date.today().month == 12):
                         if ("my" in text):
                             if ("point" in text):
                                 await message.channel.send(get_karma_point(message.author.id, message.guild.id))
@@ -65,7 +65,7 @@ async def on_message(message):
                                 await message.channel.send(get_karma_point(client.user.id, message.guild.id))
                             else:
                                 await message.channel.send(get_karma(client.user.id, message.guild.id, "My"))
-                        elif ("ranking" in text or "leaderboard" in text or "naughty or nice" in text):
+                        elif ("ranking" in text or "leaderboard" in text or "naughty list" in text):
                             karma_ranking = get_karma_ranking(
                                 message.guild.id, text)
                             if (len(karma_ranking) > 0):
@@ -92,18 +92,17 @@ async def on_message(message):
                                     else:
                                         emoji = "😐"
                                     row += f"{emoji} {user_name}  ({karma_point})" + "\n"
-                                embed.add_field(name="🎄🎅 Yoshii's Naughty or Nice List 🎅🎄",
+                                embed.add_field(name=f"🎄🎅 Yoshii's Naughty List {int(karma_ranking[i]['karma_year'])} 🎅🎄",
                                                 value=row, inline=True)
-
                                 embed.set_footer(
-                                    text=f"📅 {int(karma_ranking[i]['karma_year'])} 📅")
+                                    text=f"")
                                 await message.channel.send(embed=embed)
                             else:
                                 await message.channel.send("Karma Ranking does not exist.")
                         else:
                             await message.channel.send("I'm not sure what you're asking.")
                     else:
-                        await message.channel.send("The Karma Ranking System is only available during Christmas season!")
+                        await message.channel.send("This feature is only available during the Christmas season 🎅")
 
                 # Sentiment check
                 elif get_sentiment_analysis(text) == 'negative' and not isWhitelisted:
