@@ -29,10 +29,12 @@ async def on_message(message):
 
     text = message.content.lower()
 
-    try:
-        update_karma_point(message.author.id, message.guild.id, get_sentiment_analysis(text))
-    except Exception:
-        None
+    if (date.today().month == 12):
+        try:
+            update_karma_point(message.author.id,
+                               message.guild.id, get_sentiment_analysis(text))
+        except Exception:
+            None
 
     if isActive:
         if message.author == client.user:
@@ -40,7 +42,7 @@ async def on_message(message):
 
         isWhitelisted = str(message.author.id) in whitelist
 
-        if("yoshii" in text):
+        if ("yoshii" in text):
             async with message.channel.typing():
                 text = text.replace("yoshii", "")
                 text = re.sub(' +', ' ', text)
@@ -83,7 +85,8 @@ async def on_message(message):
                                 for i in range(len(karma_ranking)):
                                     user = await client.fetch_user(int(karma_ranking[i]['id'].split('-')[0]))
                                     user_name = user.name
-                                    karma_point = int(karma_ranking[i]['karma_point'])
+                                    karma_point = int(
+                                        karma_ranking[i]['karma_point'])
                                     emoji = "😐"
                                     if (karma_point > 0):
                                         emoji = "😇"
@@ -148,7 +151,7 @@ async def on_message(message):
 
     # Not active
     else:
-        if("yoshii" in text):
+        if ("yoshii" in text):
             async with message.channel.typing():
                 if ("wake up" in text) or ("get up" in text) or ("online" in text):
                     isActive = True
