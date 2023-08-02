@@ -42,7 +42,7 @@ async def on_message(message):
 
         isWhitelisted = str(message.author.id) in whitelist
 
-        if ("yoshii" in text):
+        if ("yoshii" in text or client.user in message.mentions):
             async with message.channel.typing():
                 text = text.replace("yoshii", "")
                 text = re.sub(' +', ' ', text)
