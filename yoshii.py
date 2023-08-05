@@ -4,6 +4,7 @@ import os
 import random
 from datetime import date
 from discord.ext import tasks
+from server import keep_alive
 from var import greetings, goodbyes, whitelist, peacemaker, custom_keywords, insults_keywords
 from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo_searcher_cat, get_joke, get_google_searcher, \
     get_insults, random_game_status, random_song_status, get_chatbot, get_custom_response, update_karma_point, get_karma, get_karma_point, \
@@ -175,5 +176,5 @@ async def change_status():
         await client.change_presence(activity=random_song_status())
 
 
-def run():
-    client.run(os.getenv('YOSHII_TOKEN'))
+keep_alive()
+client.run(os.getenv('YOSHII_TOKEN'))
