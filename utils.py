@@ -85,14 +85,7 @@ def get_sentiment_analysis(text):
     try:
         response = requests.get(
             freeflashUrl+"/sentiment-analysis?text="+text, headers=headers).json()
-        pos = int(response['pos'])
-        neg = int(response['neg'])
-        if (pos > neg):
-            return "positive"
-        elif (pos < neg):
-            return "negative"
-        else:
-            return "neutral"
+        return response['sentiment']
     except Exception:
         return "neutral"
 
