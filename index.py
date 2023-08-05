@@ -1,15 +1,12 @@
 from flask import Flask
 import yoshii
-
-
 app = Flask(__name__)
-
-yoshii.run()
 
 
 @app.route('/')
-def home():
-    return "Server is Online..."
+def default():
+    yoshii.run()
+    return ""
 
 
 # Main
