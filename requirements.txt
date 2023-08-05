@@ -1,3 +1,4 @@
+Flask==2.2.1
 discord==1.7.3
 requests==2.27.1
 pyinstaller==5.3
