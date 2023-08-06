@@ -13,7 +13,9 @@ from utils import get_sentiment_analysis, get_insp_quote, get_roasted, get_photo
 
 load_dotenv(find_dotenv())
 
-client = discord.Client(intents=discord.Intents.default())
+intents = discord.Intents.default()
+intents.message_content = True
+client = discord.Client(intents=intents)
 isActive = True
 
 
