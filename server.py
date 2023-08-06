@@ -5,8 +5,8 @@ app = Flask('')
 
 
 @app.route('/')
-def home():
-    return "Hello, I'm alive!"
+def default():
+    return "Server is online..."
 
 
 def run():
