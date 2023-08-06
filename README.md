@@ -17,6 +17,7 @@
 ### yoshii how is my karma
 ### yoshii what is my karma point?
 ### yoshii what is the server karma ranking?
+![image](https://github.com/adeziio/yoshii/assets/47045532/633cc2cd-2fe4-410e-8dbb-5b9e5ce48777)
 
 # Note: 
 ### yoshii constantly read your chat and run a sentiment analysis on you.
