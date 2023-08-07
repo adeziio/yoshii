@@ -12,7 +12,7 @@
 ### yoshii how is my karma
 ### yoshii what is my karma point?
 ### yoshii what is the server karma ranking?
-![image](https://github.com/adeziio/yoshii/assets/47045532/633cc2cd-2fe4-410e-8dbb-5b9e5ce48777)
+![image](https://github.com/adeziio/yoshii/assets/47045532/1083bf80-2e2b-4bd4-b517-ee3d4f6a7780)
 
 # Other Features:
 ### yoshii
