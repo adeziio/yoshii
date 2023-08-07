@@ -11,7 +11,12 @@
 ### yoshii show me a cat photo
 ### yoshii tell me a joke
 ### yoshii search up how to eat a banana
-### yoshii ...(say anything)...
+
+### yoshii what is the integral of 12x?
+
+
+### yoshii draw a monkey riding a horse in space
+![image](https://github.com/adeziio/yoshii/assets/47045532/db9e956e-0737-4e96-aff5-86ed6a758bfb)
 
 # Karma system commands:
 ### yoshii how is my karma
